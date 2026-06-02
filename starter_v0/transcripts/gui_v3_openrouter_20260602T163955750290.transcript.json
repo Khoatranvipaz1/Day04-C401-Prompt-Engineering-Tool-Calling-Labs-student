@@ -1,0 +1,46 @@
+{
+  "transcript_id": "gui_v3_openrouter_20260602T163955750290",
+  "version": "v3",
+  "artifact_version": "v3+pa172afe3c28a+tc64c7d9485c1",
+  "prompt_hash": "a172afe3c28a65cfdceab64b209d1a083af70bfd53f5947a5199e876d446b3f7",
+  "tools_hash": "c64c7d9485c15cb9657e0073ed84a435a80a233e4543271a8f58fbeefe39f9e9",
+  "provider": "openrouter",
+  "model": "openrouter/free",
+  "system_prompt": "D:\\tai nguyen\\VinAi\\Day04-C401-Prompt-Engineering-Tool-Calling-Labs-student\\starter_v0\\artifacts\\system_prompt.md",
+  "tools": "D:\\tai nguyen\\VinAi\\Day04-C401-Prompt-Engineering-Tool-Calling-Labs-student\\starter_v0\\artifacts\\tools.yaml",
+  "history_window": 5,
+  "max_tool_rounds": 4,
+  "created_at": "2026-06-02T16:39:55",
+  "updated_at": "2026-06-02T16:43:29",
+  "turns": [
+    {
+      "turn_index": 1,
+      "started_at": "2026-06-02T16:42:35",
+      "user": "hi",
+      "status": "answered",
+      "assistant_text": "Tôi là trợ lý nghiên cứu, tôi không thể hỗ trợ trò chuyện chung. Vui lòng đặt câu hỏi về tìm kiếm tin tức, mạng xã hội hoặc tài liệu khoa học.",
+      "rounds": [
+        {
+          "round": 1,
+          "assistant_text": "Tôi là trợ lý nghiên cứu, tôi không thể hỗ trợ trò chuyện chung. Vui lòng đặt câu hỏi về tìm kiếm tin tức, mạng xã hội hoặc tài liệu khoa học.",
+          "tool_calls": [],
+          "tool_results": []
+        }
+      ],
+      "tool_events": [],
+      "ended_at": "2026-06-02T16:42:44"
+    },
+    {
+      "turn_index": 2,
+      "started_at": "2026-06-02T16:42:50",
+      "user": "Tin tức mới nhất về trí tuệ nhân tạo (AI) hôm nay",
+      "status": "provider_error",
+      "assistant_text": "Provider error: RateLimitError: Error code: 429 - {'error': {'message': 'Rate limit exceeded: free-models-per-day. Add 10 credits to unlock 1000 free model requests per day', 'code': 429, 'metadata': {'headers': {'X-RateLimit-Limit': '50', 'X-RateLimit-Remaining': '0', 'X-RateLimit-Reset': '1780444800000'}, 'provider_name': None, 'previous_errors': [{'code': 429, 'message': 'Rate limit exceeded: free-models-per-day. Add 10 credits to unlock 1000 free model requests per day'}, {'code': 429, 'message': 'Provider returned error', 'provider_name': 'OpenInference', 'raw': 'openai/gpt-oss-20b:free is temporarily rate-limited upstream. Please retry shortly, or add your own key to accumulate your rate limits: https://openrouter.ai/settings/integrations'}, {'code': 429, 'message': 'Rate limit exceeded: free-models-per-day. Add 10 credits to unlock 1000 free model requests per day'}, {'code': 429, 'message': 'Rate limit exceeded: free-models-per-day. Add 10 credits to unlock 1000 free model requests per day'}, {'code': 429, 'message': 'Provider returned error', 'provider_name': 'Venice', 'raw': 'qwen/qwen3-next-80b-a3b-instruct:free is temporarily rate-limited upstream. Please retry shortly, or add your own key to accumulate your rate limits: https://openrouter.ai/settings/integrations'}, {'code': 429, 'message': 'Provider returned error', 'provider_name': 'Venice', 'raw': 'qwen/qwen3-coder:free is temporarily rate-limited upstream. Please retry shortly, or add your own key to accumulate your rate limits: https://openrouter.ai/settings/integrations'}, {'code': 429, 'message': 'Rate limit exceeded: free-models-per-day. Add 10 credits to unlock 1000 free model requests per day'}, {'code': 429, 'message': 'Rate limit exceeded: free-models-per-day. Add 10 credits to unlock 1000 free model requests per day'}, {'code': 429, 'message': 'Rate limit exceeded: free-models-per-day. Add 10 credits to unlock 1000 free model requests per day'}]}}, 'user_id': 'user_3E1yj3s1Oj712tONtJKHLsvrd5U'}",
+      "rounds": [],
+      "tool_events": [],
+      "error": "Provider error: RateLimitError: Error code: 429 - {'error': {'message': 'Rate limit exceeded: free-models-per-day. Add 10 credits to unlock 1000 free model requests per day', 'code': 429, 'metadata': {'headers': {'X-RateLimit-Limit': '50', 'X-RateLimit-Remaining': '0', 'X-RateLimit-Reset': '1780444800000'}, 'provider_name': None, 'previous_errors': [{'code': 429, 'message': 'Rate limit exceeded: free-models-per-day. Add 10 credits to unlock 1000 free model requests per day'}, {'code': 429, 'message': 'Provider returned error', 'provider_name': 'OpenInference', 'raw': 'openai/gpt-oss-20b:free is temporarily rate-limited upstream. Please retry shortly, or add your own key to accumulate your rate limits: https://openrouter.ai/settings/integrations'}, {'code': 429, 'message': 'Rate limit exceeded: free-models-per-day. Add 10 credits to unlock 1000 free model requests per day'}, {'code': 429, 'message': 'Rate limit exceeded: free-models-per-day. Add 10 credits to unlock 1000 free model requests per day'}, {'code': 429, 'message': 'Provider returned error', 'provider_name': 'Venice', 'raw': 'qwen/qwen3-next-80b-a3b-instruct:free is temporarily rate-limited upstream. Please retry shortly, or add your own key to accumulate your rate limits: https://openrouter.ai/settings/integrations'}, {'code': 429, 'message': 'Provider returned error', 'provider_name': 'Venice', 'raw': 'qwen/qwen3-coder:free is temporarily rate-limited upstream. Please retry shortly, or add your own key to accumulate your rate limits: https://openrouter.ai/settings/integrations'}, {'code': 429, 'message': 'Rate limit exceeded: free-models-per-day. Add 10 credits to unlock 1000 free model requests per day'}, {'code': 429, 'message': 'Rate limit exceeded: free-models-per-day. Add 10 credits to unlock 1000 free model requests per day'}, {'code': 429, 'message': 'Rate limit exceeded: free-models-per-day. Add 10 credits to unlock 1000 free model requests per day'}]}}, 'user_id': 'user_3E1yj3s1Oj712tONtJKHLsvrd5U'}",
+      "ended_at": "2026-06-02T16:43:29"
+    }
+  ],
+  "ui": "streamlit"
+}

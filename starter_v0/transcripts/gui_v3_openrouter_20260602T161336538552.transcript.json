@@ -1,0 +1,294 @@
+{
+  "transcript_id": "gui_v3_openrouter_20260602T161336538552",
+  "version": "v3",
+  "artifact_version": "v3+pe2a9df376324+tc64c7d9485c1",
+  "prompt_hash": "e2a9df376324c78a9445c02f6dcf27be0fd57d6c63d9e8f56123911f984e13c2",
+  "tools_hash": "c64c7d9485c15cb9657e0073ed84a435a80a233e4543271a8f58fbeefe39f9e9",
+  "provider": "openrouter",
+  "model": "openrouter/free",
+  "system_prompt": "D:\\tai nguyen\\VinAi\\Day04-C401-Prompt-Engineering-Tool-Calling-Labs-student\\starter_v0\\artifacts\\system_prompt.md",
+  "tools": "D:\\tai nguyen\\VinAi\\Day04-C401-Prompt-Engineering-Tool-Calling-Labs-student\\starter_v0\\artifacts\\tools.yaml",
+  "history_window": 5,
+  "max_tool_rounds": 4,
+  "created_at": "2026-06-02T16:13:36",
+  "updated_at": "2026-06-02T16:14:38",
+  "turns": [
+    {
+      "turn_index": 1,
+      "started_at": "2026-06-02T16:13:42",
+      "user": "Tin tức mới nhất về trí tuệ nhân tạo (AI) hôm nay",
+      "status": "answered",
+      "assistant_text": "**Tin tức AI mới nhất hôm nay (06/02/2026)**  \n\n- Robotics là cuộc đua AI mới nhất, với Nvidia, OpenAI, Meta, Tesla và các startup đẩy mạnh “Physical AI” – AI có thể hành động trong thế giới vật lý. Figure AI đã trình diễn một cánh tay robot học cách thực hiện các công việc gia đình, cho thấy tiến triển nhanh chóng trong robot humanoid. – [Business Insider](https://www.businessinsider.com/silicon-valleys-new-slogan-lets-get-physical-2026-6)  \n\n- CEO Qualcomm Cristiano Amon mô tả cách AI agentic đang tái cấu trúc kiến trúc thiết bị, bao gồm tiến bộ trong điện thoại di động, robot, ô tô và trung tâm dữ liệu, đồng thời giới thiệu các sản phẩm AI sắp tới. – [CNET](https://www.cnet.com/videos/qualcomms-computex-keynote-in-12-minutes/)  \n\n- Nvidia công bố chip mới nhằm tái tạo máy tính cá nhân, nhấn mạnh AI‑driven compute là động cơ lợi nhuận và đặt AI làm động lực tăng trưởng chính cho các công ty phần mềm. – [Business Insider](https://www.businessinsider.com/jensen-huang-computex-keynote-takeaways-ai-laptop-chip-rtx-spark-2026-6)  \n\n- Nghiên cứu của AI‑Driven Enterprise Institute cho thấy Nvidia, Amazon, Meta và Schlumberger dẫn đầu trong việc áp dụng AI trong các công ty S&P 500, với Nvidia đạt điểm hoàn hảo về chiến lược và thực thi AI. – [CNBC](https://www.cnbc.com/2026/06/01/nvidia-meta-walmart-among-top-companies-adopting-ai.html)  \n\n- 19Network, một nền tảng tin tức số tại UAE, ra mắt phòng tin tức AI đầu tiên của UAE, cung cấp tin tức nhanh, chuyên ngành về công nghệ, bất động sản và AI, nhằm mang đến báo cáo nhanh chóng và phù hợp với thị trường GCC và toàn cầu. – [The National Law Review](https://natlawreview.com/press-releases/19network-introduces-uaes-first-ai-powered-newsroomredefining-digital-news)",
+      "rounds": [
+        {
+          "round": 1,
+          "assistant_text": null,
+          "tool_calls": [
+            {
+              "name": "lookup",
+              "args": {
+                "query": "tin tức mới nhất về trí tuệ nhân tạo hôm nay",
+                "max_results": 5,
+                "timeframe": "day",
+                "topic": "news"
+              }
+            }
+          ],
+          "tool_results": [
+            {
+              "tool": "lookup",
+              "args": {
+                "query": "tin tức mới nhất về trí tuệ nhân tạo hôm nay",
+                "max_results": 5,
+                "timeframe": "day",
+                "topic": "news"
+              },
+              "result": {
+                "tool": "web_search",
+                "query": "tin tức mới nhất về trí tuệ nhân tạo hôm nay",
+                "topic": "news",
+                "timeframe": "day",
+                "items": [
+                  {
+                    "title": "Silicon Valley's New Slogan: Let's Get Physical - Business Insider",
+                    "url": "https://www.businessinsider.com/silicon-valleys-new-slogan-lets-get-physical-2026-6",
+                    "source": "businessinsider.com",
+                    "summary": "You're currently following this topic! The latest news and analysis on robotics, from humanoid AI to real-world automation. ### Figure AI had one of its robots race an intern to sort packages. This weekend offered a glimpse of how quickly the biggest AI players are moving in on humanoid robotics. Robotics has become tech's latest arms race, with Nvidia, OpenAI, Meta, Tesla, and a flock of startups racing to give AI a body. \"Physical AI\" is the buzzword of the moment in the Valley, a term popularized by Nvidia CEO Jensen Huang to describe AI systems that can act in the physical world. One of the buzziest Silicon Valley robotics upstarts, Figure AI, has been trying to prove its technology can move from demos to real work. The team is teaching a robotic arm how to perform household tasks as part of an effort to build a humanoid robot, Business Insider reported earlier this year.",
+                    "score": 0.8688268
+                  },
+                  {
+                    "title": "Qualcomm's Computex Keynote in 12 Minutes - Video - CNET",
+                    "url": "https://www.cnet.com/videos/qualcomms-computex-keynote-in-12-minutes/",
+                    "source": "cnet.com",
+                    "summary": "Qualcomm's Computex Keynote in 12 Minutes. Qualcomm CEO Cristiano Amon outlines how agentic AI is revolutionizing the architecture of our everyday devices at Computex 2026. Discover the future of smart technology across mobile, robotics, automotive, and data centers. The 'Mystery Meat' of Google Gemini. Google's Latest Stuff Explained in Human Terms. Is Google's Uncanny Virtual Human a Future Coworker or Concierge? Tech Editors Talk Generative AI Announcements at Google I/O 2026. The New Gemini Isn't the Siri We Need. The Android Show I/O Edition Highlights: Googlebooks, Android Auto and More. Google I/O 2026: New Gemini, Smart Glasses and a Whole New Laptop OS. Here's What to Expect. AI Analysis Reveals Future Job Security, Pitchers Use AI to Study, Best Spring Travel Gadgets | Tech Today. Highlights From Nvidia's GTC 2026 Keynote With Jensen Huang. ### All Things Mobile. ### What the Future. Nvidia's Computex Keynote in 12 Minutes. The Backrooms Explained: Unpacking the Internet's Favorite Liminal Space.",
+                    "score": 0.7772999
+                  },
+                  {
+                    "title": "'Compute is profit': 3 big takeaways from Jensen Huang's keynote in Taiwan - Business Insider",
+                    "url": "https://www.businessinsider.com/jensen-huang-computex-keynote-takeaways-ai-laptop-chip-rtx-spark-2026-6",
+                    "source": "businessinsider.com",
+                    "summary": "# 'Compute is profit': 3 big takeaways from Jensen Huang's keynote in Taiwan. It was jam-packed with new releases, including a chip aimed at reinventing the personal computer as we know it. Nvidia became the most valuable company in the world by selling chips for data centers to power the AI boom. \"This reinvention of the computer is as big of a deal as the reinvention of the phone into what we now know as the smartphone,\" Huang added. An AI factory is the combination of data centers, power, cooling, networking, compute, software, and data that enables AI to be trained and operated at scale. Similarly, Huang said onstage at Computex that AI means it's actually an \"incredible time\" to be a software company, following concerns that the technology would cause a \"SaaSpocalypse.\". Look out for an alert in your inbox the next time a new story is published!",
+                    "score": 0.7356416
+                  },
+                  {
+                    "title": "Nvidia, Meta and Schlumberger rank among top companies adopting AI, new study says - CNBC",
+                    "url": "https://www.cnbc.com/2026/06/01/nvidia-meta-walmart-among-top-companies-adopting-ai.html",
+                    "source": "cnbc.com",
+                    "summary": "# Nvidia, Meta and Schlumberger rank among top companies adopting AI, new study says. * The AI-Driven Enterprise Institute released new research that breaks down how well S&P 500 companies are adopting AI compared to their peers. * Nvidia, Amazon, Meta and Schlumberger had the top overall company scores. A new study from AI-Driven Enterprise Institute (AIDE) breaks down how well S&P 500 companies — and their leaders — are adopting AI compared to their peers. In technology, the highest company score (the average of the orientation and implementation pillars) and the only 100, went to chipmaker Nvidia, which has become the world's largest company by selling the chips and systems that have powered the development of AI models and services. The new open-source index draws from publicly available data like earnings call transcripts, job openings and patent applications to measure how much executives know and say about AI, as well as how much their companies are prioritizing the technology and bringing it into daily operations.",
+                    "score": 0.58130306
+                  },
+                  {
+                    "title": "19Network Introduces the UAE’s First AI-Powered Newsroom,Redefini - The National Law Review",
+                    "url": "https://natlawreview.com/press-releases/19network-introduces-uaes-first-ai-powered-newsroomredefining-digital-news",
+                    "source": "natlawreview.com",
+                    "summary": "### 19Network Introduces the UAE’s First AI-Powered Newsroom,Redefining Digital News for Business,Real Estate and AI Tech. *19Network launches an AI-powered newsroom covering UAE news, real estate, technology, business, lifestyle and global developments.*. DUBAI, UNITED ARAB EMIRATES, June 2, 2026 /EINPresswire.com/ -- 19Network.com, a UAE-based digital news and editorial platform, has introduced itself as the UAE’s first AI-powered newsroom, built to deliver fast, relevant and sector-focused coverage across the UAE, the wider GCC and international markets. Its core coverage areas include UAE news, real estate, artificial intelligence, technology, business, finance, lifestyle, travel, entertainment, sports, education, health and global developments. With its AI-powered newsroom direction, 19Network aims to provide a new model for digital publishing from the UAE, focused on speed, sector understanding and editorial relevance. As the UAE continues to strengthen its position as a global hub for business, investment, innovation, real estate, tourism and technology, the need for sharp, timely and multi-sector news coverage has become more important than ever.",
+                    "score": 0.5331544
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "round": 2,
+          "assistant_text": null,
+          "tool_calls": [
+            {
+              "name": "format",
+              "args": {
+                "headline": "Tin tức AI mới nhất hôm nay (06/02/2026)",
+                "items": [
+                  {
+                    "title": "Silicon Valley's New Slogan: Let's Get Physical",
+                    "source": "Business Insider",
+                    "summary": "Robotics is the latest AI arms race, with Nvidia, OpenAI, Meta, Tesla and startups pushing \"Physical AI\"—AI that can act in the physical world. Figure AI showcased a robot arm learning household tasks, highlighting rapid progress in humanoid robotics.",
+                    "url": "https://www.businessinsider.com/silicon-valleys-new-slogan-lets-get-physical-2026-6"
+                  },
+                  {
+                    "title": "Qualcomm's Computex Keynote in 12 Minutes",
+                    "source": "CNET",
+                    "summary": "Qualcomm CEO Cristiano Amon described how agentic AI is reshaping device architecture, covering advances in mobile, robotics, automotive and data centers, and previewed upcoming AI-driven products.",
+                    "url": "https://www.cnet.com/videos/qualcomms-computex-keynote-in-12-minutes/"
+                  },
+                  {
+                    "title": "'Compute is profit': 3 takeaways from Jensen Huang's keynote in Taiwan",
+                    "source": "Business Insider",
+                    "summary": "Nvidia announced a new chip aimed at reinventing personal computers, emphasizing AI‑driven compute as a profit engine and positioning AI as a major growth catalyst for software companies.",
+                    "url": "https://www.businessinsider.com/jensen-huang-computex-keynote-takeaways-ai-laptop-chip-rtx-spark-2026-6"
+                  },
+                  {
+                    "title": "Nvidia, Meta and Schlumberger rank among top companies adopting AI",
+                    "source": "CNBC",
+                    "summary": "The AI‑Driven Enterprise Institute’s study shows Nvidia, Amazon, Meta and Schlumberger leading S&P 500 firms in AI adoption, with Nvidia achieving a perfect score for AI‑focused strategy and execution.",
+                    "url": "https://www.cnbc.com/2026/06/01/nvidia-meta-walmart-among-top-companies-adopting-ai.html"
+                  },
+                  {
+                    "title": "19Network Introduces the UAE’s First AI‑Powered Newsroom",
+                    "source": "The National Law Review",
+                    "summary": "UAE‑based 19Network launched an AI‑driven newsroom covering regional news, real estate, technology and AI, aiming to deliver faster, sector‑focused coverage across the GCC and beyond.",
+                    "url": "https://natlawreview.com/press-releases/19network-introduces-uaes-first-ai-powered-newsroomredefining-digital-news"
+                  }
+                ],
+                "template": "brief"
+              }
+            }
+          ],
+          "tool_results": [
+            {
+              "tool": "format",
+              "args": {
+                "headline": "Tin tức AI mới nhất hôm nay (06/02/2026)",
+                "items": [
+                  {
+                    "title": "Silicon Valley's New Slogan: Let's Get Physical",
+                    "source": "Business Insider",
+                    "summary": "Robotics is the latest AI arms race, with Nvidia, OpenAI, Meta, Tesla and startups pushing \"Physical AI\"—AI that can act in the physical world. Figure AI showcased a robot arm learning household tasks, highlighting rapid progress in humanoid robotics.",
+                    "url": "https://www.businessinsider.com/silicon-valleys-new-slogan-lets-get-physical-2026-6"
+                  },
+                  {
+                    "title": "Qualcomm's Computex Keynote in 12 Minutes",
+                    "source": "CNET",
+                    "summary": "Qualcomm CEO Cristiano Amon described how agentic AI is reshaping device architecture, covering advances in mobile, robotics, automotive and data centers, and previewed upcoming AI-driven products.",
+                    "url": "https://www.cnet.com/videos/qualcomms-computex-keynote-in-12-minutes/"
+                  },
+                  {
+                    "title": "'Compute is profit': 3 takeaways from Jensen Huang's keynote in Taiwan",
+                    "source": "Business Insider",
+                    "summary": "Nvidia announced a new chip aimed at reinventing personal computers, emphasizing AI‑driven compute as a profit engine and positioning AI as a major growth catalyst for software companies.",
+                    "url": "https://www.businessinsider.com/jensen-huang-computex-keynote-takeaways-ai-laptop-chip-rtx-spark-2026-6"
+                  },
+                  {
+                    "title": "Nvidia, Meta and Schlumberger rank among top companies adopting AI",
+                    "source": "CNBC",
+                    "summary": "The AI‑Driven Enterprise Institute’s study shows Nvidia, Amazon, Meta and Schlumberger leading S&P 500 firms in AI adoption, with Nvidia achieving a perfect score for AI‑focused strategy and execution.",
+                    "url": "https://www.cnbc.com/2026/06/01/nvidia-meta-walmart-among-top-companies-adopting-ai.html"
+                  },
+                  {
+                    "title": "19Network Introduces the UAE’s First AI‑Powered Newsroom",
+                    "source": "The National Law Review",
+                    "summary": "UAE‑based 19Network launched an AI‑driven newsroom covering regional news, real estate, technology and AI, aiming to deliver faster, sector‑focused coverage across the GCC and beyond.",
+                    "url": "https://natlawreview.com/press-releases/19network-introduces-uaes-first-ai-powered-newsroomredefining-digital-news"
+                  }
+                ],
+                "template": "brief"
+              },
+              "result": {
+                "tool": "render_digest",
+                "template": "brief",
+                "markdown": "**Tin tức AI mới nhất hôm nay (06/02/2026)**\n\n- Robotics is the latest AI arms race, with Nvidia, OpenAI, Meta, Tesla and startups pushing \"Physical AI\"—AI that can act in the physical world. Figure AI showcased a robot arm learning household tasks, highlighting rapid progress in humanoid robotics. - [Business Insider](https://www.businessinsider.com/silicon-valleys-new-slogan-lets-get-physical-2026-6)\n- Qualcomm CEO Cristiano Amon described how agentic AI is reshaping device architecture, covering advances in mobile, robotics, automotive and data centers, and previewed upcoming AI-driven products. - [CNET](https://www.cnet.com/videos/qualcomms-computex-keynote-in-12-minutes/)\n- Nvidia announced a new chip aimed at reinventing personal computers, emphasizing AI‑driven compute as a profit engine and positioning AI as a major growth catalyst for software companies. - [Business Insider](https://www.businessinsider.com/jensen-huang-computex-keynote-takeaways-ai-laptop-chip-rtx-spark-2026-6)\n- The AI‑Driven Enterprise Institute’s study shows Nvidia, Amazon, Meta and Schlumberger leading S&P 500 firms in AI adoption, with Nvidia achieving a perfect score for AI‑focused strategy and execution. - [CNBC](https://www.cnbc.com/2026/06/01/nvidia-meta-walmart-among-top-companies-adopting-ai.html)\n- UAE‑based 19Network launched an AI‑driven newsroom covering regional news, real estate, technology and AI, aiming to deliver faster, sector‑focused coverage across the GCC and beyond. - [The National Law Review](https://natlawreview.com/press-releases/19network-introduces-uaes-first-ai-powered-newsroomredefining-digital-news)",
+                "item_count": 5
+              }
+            }
+          ]
+        },
+        {
+          "round": 3,
+          "assistant_text": "**Tin tức AI mới nhất hôm nay (06/02/2026)**  \n\n- Robotics là cuộc đua AI mới nhất, với Nvidia, OpenAI, Meta, Tesla và các startup đẩy mạnh “Physical AI” – AI có thể hành động trong thế giới vật lý. Figure AI đã trình diễn một cánh tay robot học cách thực hiện các công việc gia đình, cho thấy tiến triển nhanh chóng trong robot humanoid. – [Business Insider](https://www.businessinsider.com/silicon-valleys-new-slogan-lets-get-physical-2026-6)  \n\n- CEO Qualcomm Cristiano Amon mô tả cách AI agentic đang tái cấu trúc kiến trúc thiết bị, bao gồm tiến bộ trong điện thoại di động, robot, ô tô và trung tâm dữ liệu, đồng thời giới thiệu các sản phẩm AI sắp tới. – [CNET](https://www.cnet.com/videos/qualcomms-computex-keynote-in-12-minutes/)  \n\n- Nvidia công bố chip mới nhằm tái tạo máy tính cá nhân, nhấn mạnh AI‑driven compute là động cơ lợi nhuận và đặt AI làm động lực tăng trưởng chính cho các công ty phần mềm. – [Business Insider](https://www.businessinsider.com/jensen-huang-computex-keynote-takeaways-ai-laptop-chip-rtx-spark-2026-6)  \n\n- Nghiên cứu của AI‑Driven Enterprise Institute cho thấy Nvidia, Amazon, Meta và Schlumberger dẫn đầu trong việc áp dụng AI trong các công ty S&P 500, với Nvidia đạt điểm hoàn hảo về chiến lược và thực thi AI. – [CNBC](https://www.cnbc.com/2026/06/01/nvidia-meta-walmart-among-top-companies-adopting-ai.html)  \n\n- 19Network, một nền tảng tin tức số tại UAE, ra mắt phòng tin tức AI đầu tiên của UAE, cung cấp tin tức nhanh, chuyên ngành về công nghệ, bất động sản và AI, nhằm mang đến báo cáo nhanh chóng và phù hợp với thị trường GCC và toàn cầu. – [The National Law Review](https://natlawreview.com/press-releases/19network-introduces-uaes-first-ai-powered-newsroomredefining-digital-news)",
+          "tool_calls": [],
+          "tool_results": []
+        }
+      ],
+      "tool_events": [
+        {
+          "tool": "lookup",
+          "args": {
+            "query": "tin tức mới nhất về trí tuệ nhân tạo hôm nay",
+            "max_results": 5,
+            "timeframe": "day",
+            "topic": "news"
+          },
+          "result": {
+            "tool": "web_search",
+            "query": "tin tức mới nhất về trí tuệ nhân tạo hôm nay",
+            "topic": "news",
+            "timeframe": "day",
+            "items": [
+              {
+                "title": "Silicon Valley's New Slogan: Let's Get Physical - Business Insider",
+                "url": "https://www.businessinsider.com/silicon-valleys-new-slogan-lets-get-physical-2026-6",
+                "source": "businessinsider.com",
+                "summary": "You're currently following this topic! The latest news and analysis on robotics, from humanoid AI to real-world automation. ### Figure AI had one of its robots race an intern to sort packages. This weekend offered a glimpse of how quickly the biggest AI players are moving in on humanoid robotics. Robotics has become tech's latest arms race, with Nvidia, OpenAI, Meta, Tesla, and a flock of startups racing to give AI a body. \"Physical AI\" is the buzzword of the moment in the Valley, a term popularized by Nvidia CEO Jensen Huang to describe AI systems that can act in the physical world. One of the buzziest Silicon Valley robotics upstarts, Figure AI, has been trying to prove its technology can move from demos to real work. The team is teaching a robotic arm how to perform household tasks as part of an effort to build a humanoid robot, Business Insider reported earlier this year.",
+                "score": 0.8688268
+              },
+              {
+                "title": "Qualcomm's Computex Keynote in 12 Minutes - Video - CNET",
+                "url": "https://www.cnet.com/videos/qualcomms-computex-keynote-in-12-minutes/",
+                "source": "cnet.com",
+                "summary": "Qualcomm's Computex Keynote in 12 Minutes. Qualcomm CEO Cristiano Amon outlines how agentic AI is revolutionizing the architecture of our everyday devices at Computex 2026. Discover the future of smart technology across mobile, robotics, automotive, and data centers. The 'Mystery Meat' of Google Gemini. Google's Latest Stuff Explained in Human Terms. Is Google's Uncanny Virtual Human a Future Coworker or Concierge? Tech Editors Talk Generative AI Announcements at Google I/O 2026. The New Gemini Isn't the Siri We Need. The Android Show I/O Edition Highlights: Googlebooks, Android Auto and More. Google I/O 2026: New Gemini, Smart Glasses and a Whole New Laptop OS. Here's What to Expect. AI Analysis Reveals Future Job Security, Pitchers Use AI to Study, Best Spring Travel Gadgets | Tech Today. Highlights From Nvidia's GTC 2026 Keynote With Jensen Huang. ### All Things Mobile. ### What the Future. Nvidia's Computex Keynote in 12 Minutes. The Backrooms Explained: Unpacking the Internet's Favorite Liminal Space.",
+                "score": 0.7772999
+              },
+              {
+                "title": "'Compute is profit': 3 big takeaways from Jensen Huang's keynote in Taiwan - Business Insider",
+                "url": "https://www.businessinsider.com/jensen-huang-computex-keynote-takeaways-ai-laptop-chip-rtx-spark-2026-6",
+                "source": "businessinsider.com",
+                "summary": "# 'Compute is profit': 3 big takeaways from Jensen Huang's keynote in Taiwan. It was jam-packed with new releases, including a chip aimed at reinventing the personal computer as we know it. Nvidia became the most valuable company in the world by selling chips for data centers to power the AI boom. \"This reinvention of the computer is as big of a deal as the reinvention of the phone into what we now know as the smartphone,\" Huang added. An AI factory is the combination of data centers, power, cooling, networking, compute, software, and data that enables AI to be trained and operated at scale. Similarly, Huang said onstage at Computex that AI means it's actually an \"incredible time\" to be a software company, following concerns that the technology would cause a \"SaaSpocalypse.\". Look out for an alert in your inbox the next time a new story is published!",
+                "score": 0.7356416
+              },
+              {
+                "title": "Nvidia, Meta and Schlumberger rank among top companies adopting AI, new study says - CNBC",
+                "url": "https://www.cnbc.com/2026/06/01/nvidia-meta-walmart-among-top-companies-adopting-ai.html",
+                "source": "cnbc.com",
+                "summary": "# Nvidia, Meta and Schlumberger rank among top companies adopting AI, new study says. * The AI-Driven Enterprise Institute released new research that breaks down how well S&P 500 companies are adopting AI compared to their peers. * Nvidia, Amazon, Meta and Schlumberger had the top overall company scores. A new study from AI-Driven Enterprise Institute (AIDE) breaks down how well S&P 500 companies — and their leaders — are adopting AI compared to their peers. In technology, the highest company score (the average of the orientation and implementation pillars) and the only 100, went to chipmaker Nvidia, which has become the world's largest company by selling the chips and systems that have powered the development of AI models and services. The new open-source index draws from publicly available data like earnings call transcripts, job openings and patent applications to measure how much executives know and say about AI, as well as how much their companies are prioritizing the technology and bringing it into daily operations.",
+                "score": 0.58130306
+              },
+              {
+                "title": "19Network Introduces the UAE’s First AI-Powered Newsroom,Redefini - The National Law Review",
+                "url": "https://natlawreview.com/press-releases/19network-introduces-uaes-first-ai-powered-newsroomredefining-digital-news",
+                "source": "natlawreview.com",
+                "summary": "### 19Network Introduces the UAE’s First AI-Powered Newsroom,Redefining Digital News for Business,Real Estate and AI Tech. *19Network launches an AI-powered newsroom covering UAE news, real estate, technology, business, lifestyle and global developments.*. DUBAI, UNITED ARAB EMIRATES, June 2, 2026 /EINPresswire.com/ -- 19Network.com, a UAE-based digital news and editorial platform, has introduced itself as the UAE’s first AI-powered newsroom, built to deliver fast, relevant and sector-focused coverage across the UAE, the wider GCC and international markets. Its core coverage areas include UAE news, real estate, artificial intelligence, technology, business, finance, lifestyle, travel, entertainment, sports, education, health and global developments. With its AI-powered newsroom direction, 19Network aims to provide a new model for digital publishing from the UAE, focused on speed, sector understanding and editorial relevance. As the UAE continues to strengthen its position as a global hub for business, investment, innovation, real estate, tourism and technology, the need for sharp, timely and multi-sector news coverage has become more important than ever.",
+                "score": 0.5331544
+              }
+            ]
+          }
+        },
+        {
+          "tool": "format",
+          "args": {
+            "headline": "Tin tức AI mới nhất hôm nay (06/02/2026)",
+            "items": [
+              {
+                "title": "Silicon Valley's New Slogan: Let's Get Physical",
+                "source": "Business Insider",
+                "summary": "Robotics is the latest AI arms race, with Nvidia, OpenAI, Meta, Tesla and startups pushing \"Physical AI\"—AI that can act in the physical world. Figure AI showcased a robot arm learning household tasks, highlighting rapid progress in humanoid robotics.",
+                "url": "https://www.businessinsider.com/silicon-valleys-new-slogan-lets-get-physical-2026-6"
+              },
+              {
+                "title": "Qualcomm's Computex Keynote in 12 Minutes",
+                "source": "CNET",
+                "summary": "Qualcomm CEO Cristiano Amon described how agentic AI is reshaping device architecture, covering advances in mobile, robotics, automotive and data centers, and previewed upcoming AI-driven products.",
+                "url": "https://www.cnet.com/videos/qualcomms-computex-keynote-in-12-minutes/"
+              },
+              {
+                "title": "'Compute is profit': 3 takeaways from Jensen Huang's keynote in Taiwan",
+                "source": "Business Insider",
+                "summary": "Nvidia announced a new chip aimed at reinventing personal computers, emphasizing AI‑driven compute as a profit engine and positioning AI as a major growth catalyst for software companies.",
+                "url": "https://www.businessinsider.com/jensen-huang-computex-keynote-takeaways-ai-laptop-chip-rtx-spark-2026-6"
+              },
+              {
+                "title": "Nvidia, Meta and Schlumberger rank among top companies adopting AI",
+                "source": "CNBC",
+                "summary": "The AI‑Driven Enterprise Institute’s study shows Nvidia, Amazon, Meta and Schlumberger leading S&P 500 firms in AI adoption, with Nvidia achieving a perfect score for AI‑focused strategy and execution.",
+                "url": "https://www.cnbc.com/2026/06/01/nvidia-meta-walmart-among-top-companies-adopting-ai.html"
+              },
+              {
+                "title": "19Network Introduces the UAE’s First AI‑Powered Newsroom",
+                "source": "The National Law Review",
+                "summary": "UAE‑based 19Network launched an AI‑driven newsroom covering regional news, real estate, technology and AI, aiming to deliver faster, sector‑focused coverage across the GCC and beyond.",
+                "url": "https://natlawreview.com/press-releases/19network-introduces-uaes-first-ai-powered-newsroomredefining-digital-news"
+              }
+            ],
+            "template": "brief"
+          },
+          "result": {
+            "tool": "render_digest",
+            "template": "brief",
+            "markdown": "**Tin tức AI mới nhất hôm nay (06/02/2026)**\n\n- Robotics is the latest AI arms race, with Nvidia, OpenAI, Meta, Tesla and startups pushing \"Physical AI\"—AI that can act in the physical world. Figure AI showcased a robot arm learning household tasks, highlighting rapid progress in humanoid robotics. - [Business Insider](https://www.businessinsider.com/silicon-valleys-new-slogan-lets-get-physical-2026-6)\n- Qualcomm CEO Cristiano Amon described how agentic AI is reshaping device architecture, covering advances in mobile, robotics, automotive and data centers, and previewed upcoming AI-driven products. - [CNET](https://www.cnet.com/videos/qualcomms-computex-keynote-in-12-minutes/)\n- Nvidia announced a new chip aimed at reinventing personal computers, emphasizing AI‑driven compute as a profit engine and positioning AI as a major growth catalyst for software companies. - [Business Insider](https://www.businessinsider.com/jensen-huang-computex-keynote-takeaways-ai-laptop-chip-rtx-spark-2026-6)\n- The AI‑Driven Enterprise Institute’s study shows Nvidia, Amazon, Meta and Schlumberger leading S&P 500 firms in AI adoption, with Nvidia achieving a perfect score for AI‑focused strategy and execution. - [CNBC](https://www.cnbc.com/2026/06/01/nvidia-meta-walmart-among-top-companies-adopting-ai.html)\n- UAE‑based 19Network launched an AI‑driven newsroom covering regional news, real estate, technology and AI, aiming to deliver faster, sector‑focused coverage across the GCC and beyond. - [The National Law Review](https://natlawreview.com/press-releases/19network-introduces-uaes-first-ai-powered-newsroomredefining-digital-news)",
+            "item_count": 5
+          }
+        }
+      ],
+      "ended_at": "2026-06-02T16:14:38"
+    }
+  ],
+  "ui": "streamlit"
+}
