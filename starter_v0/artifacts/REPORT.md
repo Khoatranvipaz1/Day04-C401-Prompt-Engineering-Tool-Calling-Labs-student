@@ -3,7 +3,8 @@
 ## Team
 
 - Team: 111
-- Members: Khoa
+- Members: 
+    + Trần văn Khoa , 2A202600827
 - Provider/model: OpenRouter / `openai/gpt-4o-mini`
 
 ## Final Metrics
