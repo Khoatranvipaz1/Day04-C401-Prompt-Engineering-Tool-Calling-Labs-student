@@ -1,15 +1,9 @@
-# starter_v0 — tool declarations (intentionally vague).
-# Names and descriptions here are a rough first draft. Routing rules, name->handle
-# mapping, arg conventions (news/timeframe/Top), and the send-confirmation boundary
-# are NOT spelled out anywhere yet. Your job is to make these declarations + the
-# system prompt good enough that the agent routes correctly on the eval.
-#
-# If you rename a tool, keep the name in sync across:
-#   this file  ->  tools/__init__.py (TOOL_FUNCTIONS)  ->  data/eval_base.json + data/eval_research_extension.json
+# starter_v0 tool declarations.
+# Tool names must stay in sync with tools/__init__.py and eval expectations.
 tools:
   # ---------------- Core tools ----------------
   - name: clarify
-    description: "Ask the user one concise follow-up question when required information is missing or ambiguous. Use this for missing account/handle, missing URL, unclear query, or missing confirmation before send/post/publish. For send/post/publish confirmation, use response_type=yes_no."
+    description: "Ask the user one concise follow-up question when required information is missing or ambiguous. Use this tool, not plain text, for missing account/handle, missing URL, unclear query, or missing confirmation before send/post/publish. If the user asks for tweets/posts but does not say whose account, call this tool with response_type=text. For send/post/publish confirmation, use response_type=yes_no."
     parameters:
       type: object
       properties:
@@ -19,37 +13,37 @@ tools:
       required: [question]
 
   - name: timeline
-    description: "Lấy các bài đăng gần đây."
+    description: "Get recent tweets/posts from one specific account. Use only when the user explicitly names a person/account/handle, e.g. Sam Altman -> sama, Elon Musk -> elonmusk, Andrej Karpathy -> karpathy. Do not use when the account is missing; use clarify instead. Do not use for topic searches."
     parameters:
       type: object
       properties:
-        screenname: {type: string, default: "", description: "Tên tài khoản"}
-        limit: {type: integer, default: 5, description: "Số lượng"}
+        screenname: {type: string, default: "", description: "Account handle without @. Use known mappings only when the user explicitly names the person/account: Sam Altman=sama, Elon Musk=elonmusk, Andrej Karpathy=karpathy."}
+        limit: {type: integer, default: 5, description: "Number of posts to retrieve. Use the explicit user count such as 3, 5, or 10; otherwise default to 5."}
       required: [screenname]
 
   - name: social_search
-    description: "Tìm trên mạng xã hội."
+    description: "Search social media tweets/posts about a topic or keyword. Use when the user asks what people are saying about a subject on Twitter/social media. Do not use for tweets/posts by one specific account; use timeline for that."
     parameters:
       type: object
       properties:
-        query: {type: string, default: "", description: "Từ khóa"}
-        search_type: {type: string, enum: [Latest, Top], default: "Latest", description: "Cách sắp xếp"}
-        limit: {type: integer, default: 5, description: "Số lượng"}
+        query: {type: string, default: "", description: "Topic or keyword to search for, e.g. GPT-5, OpenAI, AI."}
+        search_type: {type: string, enum: [Latest, Top], default: "Latest", description: "Use Top for top/popular/pho bien/phổ biến posts; otherwise use Latest."}
+        limit: {type: integer, default: 5, description: "Number of posts to retrieve. Use an explicit count if the user gives one; otherwise default to 5."}
       required: [query]
 
   - name: lookup
-    description: "Tra cứu thông tin trên internet."
+    description: "Search the web for general information or news. Use topic=news for news/tin/tin tuc/tin tức/current-events requests. Use timeframe=day for today/hom nay/hôm nay and timeframe=week for this week/tuan nay/tuần này."
     parameters:
       type: object
       properties:
-        query: {type: string, default: "", description: "Truy vấn"}
-        topic: {type: string, enum: [general, news], default: "general", description: "Phân loại"}
-        timeframe: {type: string, enum: [day, week, month, year], default: "week", description: "Khoảng thời gian"}
-        max_results: {type: integer, default: 5, description: "Số kết quả"}
+        query: {type: string, default: "", description: "Search query. Keep only the core topic, e.g. AI, robotics, OpenAI, technology."}
+        topic: {type: string, enum: [general, news], default: "general", description: "Use news for news/tin/tin tuc/tin tức/current events; otherwise general."}
+        timeframe: {type: string, enum: [day, week, month, year], default: "week", description: "Use day for today/hom nay/hôm nay; week for this week/tuan nay/tuần này."}
+        max_results: {type: integer, default: 5, description: "Maximum number of web results to return."}
       required: [query]
 
   - name: fetch
-    description: "Read and extract content from one specific URL supplied by the user. Use this when the user provides a concrete URL and asks to read, summarize, or analyze it. Do not use for vague references like 'this article' without a URL; use clarify instead."
+    description: "Read and extract content from one specific URL supplied by the user. Use this when the user provides a concrete URL and asks to read, summarize, or analyze it. Do not use for vague references like 'this article' or 'bai nay/bài này' without a URL; use clarify instead."
     parameters:
       type: object
       properties:
@@ -57,14 +51,14 @@ tools:
       required: [url]
 
   - name: format
-    description: "Trình bày dữ liệu đã có thành văn bản."
+    description: "Format already-retrieved source items into a markdown digest. Use only after source items are available from another tool or previous context; do not use to search, fetch, or invent new information."
     parameters:
       type: object
       properties:
         items:
           type: array
           default: []
-          description: "Danh sách item"
+          description: "Source items that already exist."
           items:
             type: object
             properties:
@@ -73,46 +67,46 @@ tools:
               source: {type: string}
               summary: {type: string}
               section: {type: string}
-        template: {type: string, enum: [brief, sections, bullets, thread, daily_ai_vn], default: "sections", description: "Khuôn"}
-        headline: {type: string, default: "", description: "Tiêu đề"}
+        template: {type: string, enum: [brief, sections, bullets, thread, daily_ai_vn], default: "sections", description: "Output template."}
+        headline: {type: string, default: "", description: "Optional digest headline."}
       required: [items, template]
 
   # ---------------- Bonus tools ----------------
   - name: send
-    description: "Gửi một đoạn văn bản đi."
+    description: "Send/publish text to Telegram only after explicit user confirmation. Never use this as the first step for send/post/publish/dang/đăng requests; first use clarify with response_type=yes_no unless confirmation is already explicit."
     parameters:
       type: object
       properties:
-        text: {type: string, default: "", description: "Nội dung"}
-        confirmed: {type: boolean, default: false, description: "Cờ xác nhận"}
+        text: {type: string, default: "", description: "Exact text to send after user confirmation."}
+        confirmed: {type: boolean, default: false, description: "Must be true only when the user explicitly confirmed sending/publishing."}
       required: [text]
 
   - name: policy
-    description: "Tìm trong tài liệu nội bộ."
+    description: "Search local company policy markdown documents. Use for internal policy questions, source citation rules, data privacy rules, external publishing rules, or tool usage policy."
     parameters:
       type: object
       properties:
-        query: {type: string, default: "", description: "Truy vấn"}
-        policy_area: {type: string, enum: [all, ai_research, source_citation, data_privacy, external_publishing, tool_usage], default: "all", description: "Nhóm"}
-        top_k: {type: integer, default: 3, description: "Số mục"}
+        query: {type: string, default: "", description: "Policy search query."}
+        policy_area: {type: string, enum: [all, ai_research, source_citation, data_privacy, external_publishing, tool_usage], default: "all", description: "Policy area to search."}
+        top_k: {type: integer, default: 3, description: "Number of matching policy snippets."}
       required: [query]
 
   - name: papers
-    description: "Tìm bài báo khoa học."
+    description: "Search arXiv papers. Use for academic paper discovery, research papers, preprints, or arXiv queries."
     parameters:
       type: object
       properties:
-        query: {type: string, default: "", description: "Từ khóa"}
-        max_results: {type: integer, default: 5, description: "Số lượng"}
-        sort_by: {type: string, enum: [relevance, lastUpdatedDate, submittedDate], default: "relevance", description: "Sắp xếp"}
+        query: {type: string, default: "", description: "Paper search query."}
+        max_results: {type: integer, default: 5, description: "Number of papers to return."}
+        sort_by: {type: string, enum: [relevance, lastUpdatedDate, submittedDate], default: "relevance", description: "Sort order for paper results."}
       required: [query]
 
   - name: paper_text
-    description: "Lấy nội dung text của một bài báo."
+    description: "Extract text from a specific arXiv paper PDF. Use only when the user provides an arXiv ID or URL."
     parameters:
       type: object
       properties:
-        arxiv_url: {type: string, default: "", description: "ID hoặc địa chỉ"}
-        max_pages: {type: integer, default: 5, description: "Số trang"}
-        max_chars: {type: integer, default: 8000, description: "Số ký tự"}
+        arxiv_url: {type: string, default: "", description: "arXiv ID or URL."}
+        max_pages: {type: integer, default: 5, description: "Maximum pages to extract."}
+        max_chars: {type: integer, default: 8000, description: "Maximum extracted characters."}
       required: [arxiv_url]
