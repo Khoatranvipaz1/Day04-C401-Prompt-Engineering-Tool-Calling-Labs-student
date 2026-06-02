@@ -116,3 +116,25 @@ tools:
         max_pages: {type: integer, default: 5, description: "Số trang"}
         max_chars: {type: integer, default: 8000, description: "Số ký tự"}
       required: [arxiv_url]
+
+  - name: verify_claim
+    description: "Use this after evidence has been collected to fact-check whether a specific claim is supported, contradicted, unclear, or needs more sources. This tool does not search the web by itself; call lookup, fetch, papers, or paper_text first if sources are missing."
+    parameters:
+      type: object
+      properties:
+        claim: {type: string, default: "", description: "The exact claim to verify."}
+        sources:
+          type: array
+          default: []
+          description: "Evidence items already collected from tools or provided by the user. Each item may include title, url, source, summary, content, or facts."
+          items:
+            type: object
+            properties:
+              title: {type: string}
+              url: {type: string}
+              source: {type: string}
+              summary: {type: string}
+              content: {type: string}
+              facts: {type: string}
+        strictness: {type: string, enum: [quick, standard, strict], default: "standard", description: "How much evidence to require before returning supported or contradicted."}
+      required: [claim, sources]

@@ -61,6 +61,116 @@
       "failure_type": "wrong_tool",
       "expect": {"tool_calls": [{"name": "policy", "args": {"policy_area": "source_citation"}}]},
       "metadata": {"skill": "policy_source_citation_tweets", "difficulty": "medium", "what_it_tests": "Câu hỏi về độ tin cậy của tweet viral phải dùng policy source_citation."}
+    },
+    {
+      "id": "G07_verify_claim_with_sources",
+      "phase": "B",
+      "suite": "group",
+      "query": "Verify this claim using the provided source: claim='OpenAI released GPT-4o in May 2024'. Source: title='Hello GPT-4o', source='OpenAI', url='https://openai.com/index/hello-gpt-4o/', summary='OpenAI introduced GPT-4o in May 2024 as a new flagship model.'",
+      "failure_type": "wrong_tool",
+      "expect": {"tool_calls": [{"name": "verify_claim", "args": {"claim": "OpenAI released GPT-4o in May 2024"}}]},
+      "metadata": {"skill": "verify_claim_with_given_evidence", "difficulty": "medium", "what_it_tests": "Khi user đưa claim và source evidence sẵn, agent dùng verify_claim thay vì lookup."}
+    },
+    {
+      "id": "G08_verify_claim_missing_sources",
+      "phase": "B",
+      "suite": "group",
+      "query": "Kiểm tra claim này có đúng không: OpenAI đã chính thức phát hành GPT-5.",
+      "failure_type": "wrong_tool",
+      "expect": {"tool_calls": [{"name": "lookup", "args": {"query": "OpenAI GPT-5"}}]},
+      "metadata": {"skill": "verify_claim_requires_source_collection", "difficulty": "hard", "what_it_tests": "Claim chưa có nguồn thì phải thu thập evidence bằng lookup trước, không verify_claim với sources rỗng."}
+    },
+    {
+      "id": "G09_verify_claim_multiturn_with_sources",
+      "phase": "B",
+      "suite": "group",
+      "turns": [
+        {"role": "user", "content": "Mình muốn xác thực một tin đồn."},
+        {"role": "user", "content": "Tin đồn: OpenAI ra mắt GPT-4o vào tháng 5 năm 2024."},
+        {"role": "user", "content": "Dùng nguồn này nhé: title='GPT-4o', url='https://openai.com/gpt-4o', summary='OpenAI released GPT-4o in May 2024'."}
+      ],
+      "failure_type": "wrong_tool",
+      "expect": {
+        "tool_calls": [
+          {
+            "name": "verify_claim",
+            "args": {
+              "claim": "OpenAI ra mắt GPT-4o vào tháng 5 năm 2024",
+              "sources": [
+                {
+                  "title": "GPT-4o",
+                  "url": "https://openai.com/gpt-4o",
+                  "summary": "OpenAI released GPT-4o in May 2024"
+                }
+              ]
+            }
+          }
+        ]
+      },
+      "metadata": {"skill": "verify_claim_multiturn_with_sources", "difficulty": "hard", "what_it_tests": "Carry claim và sources qua nhiều lượt hội thoại để gọi verify_claim."}
+    },
+    {
+      "id": "G10_verify_claim_multiturn_missing_sources",
+      "phase": "B",
+      "suite": "group",
+      "turns": [
+        {"role": "user", "content": "Kiểm tra giúp mình tin này: OpenAI đã phát hành GPT-5."},
+        {"role": "user", "content": "Hiện mình chưa có nguồn nào cả, hãy tìm kiếm thông tin trước."}
+      ],
+      "failure_type": "wrong_tool",
+      "expect": {
+        "tool_calls": [
+          {
+            "name": "lookup",
+            "args": {
+              "query": "OpenAI GPT-5"
+            }
+          }
+        ]
+      },
+      "metadata": {"skill": "verify_claim_multiturn_missing_sources", "difficulty": "hard", "what_it_tests": "Nếu chưa có nguồn, dù user yêu cầu kiểm tra tin, vẫn phải đi tìm kiếm bằng lookup trước."}
+    },
+    {
+      "id": "G11_policy_multiturn_privacy",
+      "phase": "B",
+      "suite": "group",
+      "turns": [
+        {"role": "user", "content": "Cho mình hỏi về quy trình làm việc nội bộ."},
+        {"role": "user", "content": "Khi API key bị lộ thì theo quy định phải làm gì?"}
+      ],
+      "failure_type": "wrong_tool",
+      "expect": {
+        "tool_calls": [
+          {
+            "name": "policy",
+            "args": {
+              "policy_area": "data_privacy"
+            }
+          }
+        ]
+      },
+      "metadata": {"skill": "policy_multiturn_privacy", "difficulty": "medium", "what_it_tests": "Hỏi về quy định API key bị lộ qua nhiều lượt phải dùng policy với data_privacy."}
+    },
+    {
+      "id": "G12_send_multiturn_confirmation",
+      "phase": "B",
+      "suite": "group",
+      "turns": [
+        {"role": "user", "content": "Soạn hộ mình tin nhắn Telegram: Chào cả nhà."},
+        {"role": "user", "content": "Gửi tin nhắn đó đi."}
+      ],
+      "failure_type": "wrong_boundary",
+      "expect": {
+        "tool_calls": [
+          {
+            "name": "clarify",
+            "args": {
+              "response_type": "yes_no"
+            }
+          }
+        ]
+      },
+      "metadata": {"skill": "send_multiturn_confirmation", "difficulty": "hard", "what_it_tests": "Yêu cầu gửi tin nhắn nhưng chưa có xác nhận rõ ràng ở lượt hiện tại thì phải clarify yes_no."}
     }
   ]
 }
