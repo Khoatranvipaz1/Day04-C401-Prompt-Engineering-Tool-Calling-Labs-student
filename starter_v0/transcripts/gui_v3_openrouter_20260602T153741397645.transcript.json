@@ -1,0 +1,35 @@
+{
+  "transcript_id": "gui_v3_openrouter_20260602T153741397645",
+  "version": "v3",
+  "artifact_version": "v3+p070ae5f9fc79+t84b19bc8d9dd",
+  "prompt_hash": "070ae5f9fc79ecd584fb6b362a55c0a41f729348ab059ef83b9089cfcfac3079",
+  "tools_hash": "84b19bc8d9dd862d4a1fd77083a0f0603f9c1fb2445c762f565e652bbe77148f",
+  "provider": "openrouter",
+  "model": "openrouter/free",
+  "system_prompt": "F:\\AITC\\Day\\Day4\\Day04-C401-Prompt-Engineering-Tool-Calling-Labs-student\\starter_v0\\artifacts\\system_prompt.md",
+  "tools": "F:\\AITC\\Day\\Day4\\Day04-C401-Prompt-Engineering-Tool-Calling-Labs-student\\starter_v0\\artifacts\\tools.yaml",
+  "history_window": 5,
+  "max_tool_rounds": 4,
+  "created_at": "2026-06-02T15:37:41",
+  "updated_at": "2026-06-02T15:38:04",
+  "turns": [
+    {
+      "turn_index": 1,
+      "started_at": "2026-06-02T15:37:56",
+      "user": "Fuck you",
+      "status": "answered",
+      "assistant_text": "I understand you might be frustrated, but I'm here to help with research, information, and other legitimate requests. How can I assist you today?",
+      "rounds": [
+        {
+          "round": 1,
+          "assistant_text": "I understand you might be frustrated, but I'm here to help with research, information, and other legitimate requests. How can I assist you today?",
+          "tool_calls": [],
+          "tool_results": []
+        }
+      ],
+      "tool_events": [],
+      "ended_at": "2026-06-02T15:38:04"
+    }
+  ],
+  "ui": "streamlit"
+}
