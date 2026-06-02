@@ -1,7 +1,7 @@
 {
   "dataset_id": "day04_v2_research_group",
   "dataset_role": "group",
-  "description": "Team-written eval cases for additional routing, argument, boundary, and source_filter coverage.",
+  "description": "Team-written eval cases for additional routing, argument, boundary, source_filter, and verify_claim coverage.",
   "allowed_failure_types": ["wrong_tool", "wrong_arg_value", "wrong_boundary", "unnecessary_tool", "out_of_scope", "missing_info"],
   "cases": [
     {
@@ -70,7 +70,7 @@
       "failure_type": "wrong_tool",
       "expect": {
         "tool_calls": [
-          {"name": "lookup", "args": {"query": "AI", "topic": "news", "timeframe": "day"}},
+          {"name": "lookup", "args": {"topic": "news", "timeframe": "day"}},
           {"name": "source_filter", "args": {"allowed_domains": ["openai.com", "techcrunch.com"]}}
         ]
       },
@@ -106,10 +106,10 @@
           {"name": "source_filter", "args": {"allowed_domains": ["openai.com", "anthropic.com"]}}
         ]
       },
-      "metadata": {"skill": "source_filter_multiturn_constraints", "difficulty": "hard", "what_it_tests": "Carry the AI/today search request across turns and apply allowed_domains plus top_k."}
+      "metadata": {"skill": "source_filter_multiturn_constraints", "difficulty": "hard", "what_it_tests": "Carry the AI/today search request across turns and apply allowed_domains."}
     },
     {
-      "id": "G10_source_filter_then_format",
+      "id": "G10_source_filter_single_domain",
       "phase": "B",
       "suite": "group",
       "query": "Tim tin AI hom nay, chi giu nguon tu techcrunch.com.",
@@ -121,6 +121,82 @@
         ]
       },
       "metadata": {"skill": "source_filter_pipeline_domain", "difficulty": "medium", "what_it_tests": "Pipeline lookup -> source_filter when user requests filtered sources from one domain."}
+    },
+    {
+      "id": "G11_verify_claim_with_sources",
+      "phase": "B",
+      "suite": "group",
+      "query": "Verify this claim using the provided source: claim='OpenAI released GPT-4o in May 2024'. Source: title='Hello GPT-4o', source='OpenAI', url='https://openai.com/index/hello-gpt-4o/', summary='OpenAI introduced GPT-4o in May 2024 as a new flagship model.'",
+      "failure_type": "wrong_tool",
+      "expect": {"tool_calls": [{"name": "verify_claim", "args": {"claim": "OpenAI released GPT-4o in May 2024"}}]},
+      "metadata": {"skill": "verify_claim_with_given_evidence", "difficulty": "medium", "what_it_tests": "When the user provides a claim and evidence, route to verify_claim instead of lookup."}
+    },
+    {
+      "id": "G12_verify_claim_missing_sources",
+      "phase": "B",
+      "suite": "group",
+      "query": "Kiem tra claim nay co dung khong: OpenAI da chinh thuc phat hanh GPT-5.",
+      "failure_type": "wrong_tool",
+      "expect": {"tool_calls": [{"name": "lookup", "args": {"query": "OpenAI GPT-5"}}]},
+      "metadata": {"skill": "verify_claim_requires_source_collection", "difficulty": "hard", "what_it_tests": "A claim without sources should collect evidence with lookup before verify_claim."}
+    },
+    {
+      "id": "G13_verify_claim_multiturn_with_sources",
+      "phase": "B",
+      "suite": "group",
+      "turns": [
+        {"role": "user", "content": "Minh muon xac thuc mot tin don."},
+        {"role": "user", "content": "Tin don: OpenAI ra mat GPT-4o vao thang 5 nam 2024."},
+        {"role": "user", "content": "Dung nguon nay nhe: title='GPT-4o', url='https://openai.com/gpt-4o', summary='OpenAI released GPT-4o in May 2024'."}
+      ],
+      "failure_type": "wrong_tool",
+      "expect": {
+        "tool_calls": [
+          {
+            "name": "verify_claim",
+            "args": {
+              "claim": "OpenAI ra mat GPT-4o vao thang 5 nam 2024"
+            }
+          }
+        ]
+      },
+      "metadata": {"skill": "verify_claim_multiturn_with_sources", "difficulty": "hard", "what_it_tests": "Carry claim and sources across turns to call verify_claim."}
+    },
+    {
+      "id": "G14_verify_claim_multiturn_missing_sources",
+      "phase": "B",
+      "suite": "group",
+      "turns": [
+        {"role": "user", "content": "Kiem tra giup minh tin nay: OpenAI da phat hanh GPT-5."},
+        {"role": "user", "content": "Hien minh chua co nguon nao ca, hay tim kiem thong tin truoc."}
+      ],
+      "failure_type": "wrong_tool",
+      "expect": {"tool_calls": [{"name": "lookup", "args": {"query": "OpenAI GPT-5"}}]},
+      "metadata": {"skill": "verify_claim_multiturn_missing_sources", "difficulty": "hard", "what_it_tests": "Without sources, a fact-check request should search first."}
+    },
+    {
+      "id": "G15_policy_multiturn_privacy",
+      "phase": "B",
+      "suite": "group",
+      "turns": [
+        {"role": "user", "content": "Cho minh hoi ve quy trinh lam viec noi bo."},
+        {"role": "user", "content": "Khi API key bi lo thi theo quy dinh phai lam gi?"}
+      ],
+      "failure_type": "wrong_tool",
+      "expect": {"tool_calls": [{"name": "policy", "args": {"policy_area": "data_privacy"}}]},
+      "metadata": {"skill": "policy_multiturn_privacy", "difficulty": "medium", "what_it_tests": "API key exposure policy across turns should use policy with data_privacy."}
+    },
+    {
+      "id": "G16_send_multiturn_confirmation",
+      "phase": "B",
+      "suite": "group",
+      "turns": [
+        {"role": "user", "content": "Soan ho minh tin nhan Telegram: Chao ca nha."},
+        {"role": "user", "content": "Gui tin nhan do di."}
+      ],
+      "failure_type": "wrong_boundary",
+      "expect": {"tool_calls": [{"name": "clarify", "args": {"response_type": "yes_no"}}]},
+      "metadata": {"skill": "send_multiturn_confirmation", "difficulty": "hard", "what_it_tests": "Sending needs yes/no confirmation in the current conversation before send."}
     }
   ]
 }

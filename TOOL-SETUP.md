@@ -200,6 +200,37 @@ Direct tool test (verifies the bot token/chat only):
 python -c "from tools import TOOL_FUNCTIONS as T; print(T['send']('AI20k test message', confirmed=True))"
 ```
 
+## 7. Winston AI Group Tool - `plagiarism_check`
+
+Checks public source overlap with Winston AI's plagiarism API. This is a similarity/originality aid, not a definitive plagiarism verdict.
+
+Official links:
+
+- Docs: https://docs.gowinston.ai/api-reference/v1/plagiarism/post
+- Developer dashboard: https://dev.gowinston.ai/
+
+Setup:
+
+1. Create/sign in to a Winston AI developer account.
+2. Copy your API key from the developer dashboard.
+3. Add to `starter_v0/.env`:
+
+```bash
+WINSTON_API_KEY=...
+```
+
+Input constraints from Winston AI:
+
+- Minimum 16 words.
+- Maximum 20,000 words.
+- Plagiarism detection uses 2 credits per processed word.
+
+Quick test:
+
+```bash
+python -c "from tools import TOOL_FUNCTIONS as T; text='This is a test paragraph with enough words to check whether the Winston AI plagiarism endpoint is reachable from this project.'; print(T['plagiarism_check'](text))"
+```
+
 ## Final Checklist
 
 Before class, at least one person per group should have:
@@ -208,6 +239,7 @@ Before class, at least one person per group should have:
 - `TAVILY_API_KEY`
 - `FIRECRAWL_API_KEY`
 - `RAPIDAPI_KEY`
+- optional `WINSTON_API_KEY`
 - optional `TELEGRAM_BOT_TOKEN`, `TELEGRAM_CHAT_ID`
 - optional `ARXIV_USER_AGENT`
 - `python scripts/preflight_provider.py --provider openrouter` passes
