@@ -3,7 +3,7 @@
 ## Team
 
 - Team: 111
-- Members: Tran Van Khoa - 2A202600827
+- Members: Tran Van Khoa - 2A202600827, Nguyễn Văn Duy - 2A202600725, Nghiêm Tuấn Linh
 - Provider/model: OpenRouter / `openai/gpt-4o-mini`
 
 ## Final Metrics
