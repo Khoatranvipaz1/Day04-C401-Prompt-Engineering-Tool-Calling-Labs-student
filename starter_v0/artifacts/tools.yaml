@@ -116,3 +116,26 @@ tools:
         max_pages: {type: integer, default: 5, description: "Số trang"}
         max_chars: {type: integer, default: 8000, description: "Số ký tự"}
       required: [arxiv_url]
+
+  - name: source_filter
+    description: "Filter, deduplicate, and rank already-collected research items by source domain before formatting a digest. Use this when the user says only keep certain domains, exclude domains, remove duplicate sources, require URLs, or keep the top N filtered results."
+    parameters:
+      type: object
+      properties:
+        items:
+          type: array
+          default: []
+          description: "Research items from previous tool results"
+          items:
+            type: object
+            properties:
+              title: {type: string}
+              url: {type: string}
+              source: {type: string}
+              summary: {type: string}
+              score: {type: number}
+        allowed_domains: {type: array, default: [], items: {type: string}, description: "Domains to keep; empty means allow all"}
+        blocked_domains: {type: array, default: [], items: {type: string}, description: "Domains to remove"}
+        top_k: {type: integer, default: 5, description: "Maximum number of filtered items"}
+        require_url: {type: boolean, default: true, description: "Drop items without URLs"}
+      required: [items]

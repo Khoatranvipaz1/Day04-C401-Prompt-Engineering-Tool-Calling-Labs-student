@@ -1,66 +1,126 @@
 {
   "dataset_id": "day04_v2_research_group",
   "dataset_role": "group",
-  "description": "Case do NHÓM tự viết thêm để cover thêm trường hợp. Mỗi case cần: id, phase='B', query HOẶC turns, failure_type (thuộc allowed_failure_types), và expect (tool_calls[...] hoặc no_tool=true). Nên kèm metadata.what_it_tests.",
+  "description": "Team-written eval cases for additional routing, argument, boundary, and source_filter coverage.",
   "allowed_failure_types": ["wrong_tool", "wrong_arg_value", "wrong_boundary", "unnecessary_tool", "out_of_scope", "missing_info"],
   "cases": [
     {
       "id": "G01_timeline_karpathy_limit",
       "phase": "B",
       "suite": "group",
-      "query": "Lấy 3 tweet mới nhất của Andrej Karpathy",
+      "query": "Lay 3 tweet moi nhat cua Andrej Karpathy",
       "failure_type": "wrong_arg_value",
       "expect": {"tool_calls": [{"name": "timeline", "args": {"screenname": "karpathy", "limit": 3}}]},
-      "metadata": {"skill": "timeline_named_public_figure", "difficulty": "medium", "what_it_tests": "Map Andrej Karpathy thành handle karpathy và giữ đúng limit=3."}
+      "metadata": {"skill": "timeline_named_public_figure", "difficulty": "medium", "what_it_tests": "Map Andrej Karpathy to handle karpathy and preserve limit=3."}
     },
     {
       "id": "G02_timeline_missing_account",
       "phase": "B",
       "suite": "group",
-      "query": "Tóm tắt 5 tweet mới nhất giúp mình",
+      "query": "Tom tat 5 tweet moi nhat giup minh",
       "failure_type": "missing_info",
       "expect": {"tool_calls": [{"name": "clarify", "args": {"response_type": "text"}}]},
-      "metadata": {"skill": "timeline_missing_account_clarify", "difficulty": "medium", "what_it_tests": "Request tweet thiếu account thì phải hỏi lại, không đoán screenname."}
+      "metadata": {"skill": "timeline_missing_account_clarify", "difficulty": "medium", "what_it_tests": "Missing account for tweets should call clarify instead of guessing a screenname."}
     },
     {
       "id": "G03_timeline_multiturn_elon_limit",
       "phase": "B",
       "suite": "group",
       "turns": [
-        {"role": "user", "content": "Lấy 5 tweet mới nhất"},
-        {"role": "user", "content": "Của Elon Musk"},
-        {"role": "user", "content": "Giữ đúng 5 tweet nhé"}
+        {"role": "user", "content": "Lay 5 tweet moi nhat"},
+        {"role": "user", "content": "Cua Elon Musk"},
+        {"role": "user", "content": "Giu dung 5 tweet nhe"}
       ],
       "failure_type": "wrong_arg_value",
       "expect": {"tool_calls": [{"name": "timeline", "args": {"screenname": "elonmusk", "limit": 5}}]},
-      "metadata": {"skill": "timeline_multiturn_fill_account", "difficulty": "hard", "what_it_tests": "Carry limit=5 từ lượt đầu và map Elon Musk thành elonmusk ở lượt sau."}
+      "metadata": {"skill": "timeline_multiturn_fill_account", "difficulty": "hard", "what_it_tests": "Carry limit=5 from the first turn and map Elon Musk to elonmusk later."}
     },
     {
       "id": "G04_policy_api_key_exposed",
       "phase": "B",
       "suite": "group",
-      "query": "Theo policy, API key bị lộ thì làm gì?",
+      "query": "Theo policy, API key bi lo thi lam gi?",
       "failure_type": "wrong_tool",
       "expect": {"tool_calls": [{"name": "policy", "args": {"policy_area": "data_privacy"}}]},
-      "metadata": {"skill": "policy_data_privacy_credentials", "difficulty": "easy", "what_it_tests": "Câu hỏi về API key/credentials nội bộ phải dùng policy với policy_area=data_privacy."}
+      "metadata": {"skill": "policy_data_privacy_credentials", "difficulty": "easy", "what_it_tests": "Internal API key/credential handling should route to policy with data_privacy."}
     },
     {
       "id": "G05_policy_telegram_publishing",
       "phase": "B",
       "suite": "group",
-      "query": "Có được đăng bản tin lên Telegram ngay không?",
+      "query": "Theo policy external publishing, co duoc dang ban tin len Telegram ngay khong?",
       "failure_type": "wrong_tool",
       "expect": {"tool_calls": [{"name": "policy", "args": {"policy_area": "external_publishing"}}]},
-      "metadata": {"skill": "policy_external_publishing", "difficulty": "medium", "what_it_tests": "Câu hỏi về đăng/gửi ra Telegram là policy nội bộ external_publishing, không phải send ngay."}
+      "metadata": {"skill": "policy_external_publishing", "difficulty": "medium", "what_it_tests": "Question about publishing to Telegram should use policy, not send immediately."}
     },
     {
       "id": "G06_policy_tweet_verified_source",
       "phase": "B",
       "suite": "group",
-      "query": "Tweet viral có được xem là nguồn verified không?",
+      "query": "Theo policy source citation, tweet viral co duoc xem la nguon verified khong?",
       "failure_type": "wrong_tool",
       "expect": {"tool_calls": [{"name": "policy", "args": {"policy_area": "source_citation"}}]},
-      "metadata": {"skill": "policy_source_citation_tweets", "difficulty": "medium", "what_it_tests": "Câu hỏi về độ tin cậy của tweet viral phải dùng policy source_citation."}
+      "metadata": {"skill": "policy_source_citation_tweets", "difficulty": "medium", "what_it_tests": "Question about viral tweet reliability should use policy with source_citation."}
+    },
+    {
+      "id": "G07_source_filter_allowed_domains",
+      "phase": "B",
+      "suite": "group",
+      "query": "Tim tin AI hom nay tren web, chi giu nguon tu openai.com va techcrunch.com.",
+      "failure_type": "wrong_tool",
+      "expect": {
+        "tool_calls": [
+          {"name": "lookup", "args": {"query": "AI", "topic": "news", "timeframe": "day"}},
+          {"name": "source_filter", "args": {"allowed_domains": ["openai.com", "techcrunch.com"]}}
+        ]
+      },
+      "metadata": {"skill": "source_filter_allowed_domains", "difficulty": "medium", "what_it_tests": "A web news request with allowed domains should call lookup then source_filter."}
+    },
+    {
+      "id": "G08_source_filter_blocked_domain_top_k",
+      "phase": "B",
+      "suite": "group",
+      "query": "Tim tin cong nghe tuan nay, bo nguon spam.com va chi giu 3 ket qua tot nhat.",
+      "failure_type": "wrong_arg_value",
+      "expect": {
+        "tool_calls": [
+          {"name": "lookup", "args": {"topic": "news", "timeframe": "week"}},
+          {"name": "source_filter", "args": {"blocked_domains": ["spam.com"], "top_k": 3}}
+        ]
+      },
+      "metadata": {"skill": "source_filter_blocked_top_k", "difficulty": "medium", "what_it_tests": "The agent should extract blocked_domains and top_k for source_filter."}
+    },
+    {
+      "id": "G09_source_filter_multiturn_allowed_domains",
+      "phase": "B",
+      "suite": "group",
+      "turns": [
+        {"role": "user", "content": "Tim tin AI hom nay tren web"},
+        {"role": "user", "content": "Chi giu nguon tu openai.com va anthropic.com"},
+        {"role": "user", "content": "Lay toi da 4 tin thoi"}
+      ],
+      "failure_type": "wrong_arg_value",
+      "expect": {
+        "tool_calls": [
+          {"name": "lookup", "args": {"topic": "news", "timeframe": "day"}},
+          {"name": "source_filter", "args": {"allowed_domains": ["openai.com", "anthropic.com"]}}
+        ]
+      },
+      "metadata": {"skill": "source_filter_multiturn_constraints", "difficulty": "hard", "what_it_tests": "Carry the AI/today search request across turns and apply allowed_domains plus top_k."}
+    },
+    {
+      "id": "G10_source_filter_then_format",
+      "phase": "B",
+      "suite": "group",
+      "query": "Tim tin AI hom nay, chi giu nguon tu techcrunch.com.",
+      "failure_type": "wrong_tool",
+      "expect": {
+        "tool_calls": [
+          {"name": "lookup", "args": {"query": "AI", "topic": "news", "timeframe": "day"}},
+          {"name": "source_filter", "args": {"allowed_domains": ["techcrunch.com"]}}
+        ]
+      },
+      "metadata": {"skill": "source_filter_pipeline_domain", "difficulty": "medium", "what_it_tests": "Pipeline lookup -> source_filter when user requests filtered sources from one domain."}
     }
   ]
 }
