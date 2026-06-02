@@ -68,12 +68,7 @@
       "suite": "group",
       "query": "Tim tin AI hom nay tren web, chi giu nguon tu openai.com va techcrunch.com.",
       "failure_type": "wrong_tool",
-      "expect": {
-        "tool_calls": [
-          {"name": "lookup", "args": {"topic": "news", "timeframe": "day"}},
-          {"name": "source_filter", "args": {"allowed_domains": ["openai.com", "techcrunch.com"]}}
-        ]
-      },
+      "expect": {"tool_calls": [{"name": "lookup", "args": {"topic": "news", "timeframe": "day"}}, {"name": "source_filter", "args": {"allowed_domains": ["openai.com", "techcrunch.com"]}}]},
       "metadata": {"skill": "source_filter_allowed_domains", "difficulty": "medium", "what_it_tests": "A web news request with allowed domains should call lookup then source_filter."}
     },
     {
@@ -82,12 +77,7 @@
       "suite": "group",
       "query": "Tim tin cong nghe tuan nay, bo nguon spam.com va chi giu 3 ket qua tot nhat.",
       "failure_type": "wrong_arg_value",
-      "expect": {
-        "tool_calls": [
-          {"name": "lookup", "args": {"topic": "news", "timeframe": "week"}},
-          {"name": "source_filter", "args": {"blocked_domains": ["spam.com"], "top_k": 3}}
-        ]
-      },
+      "expect": {"tool_calls": [{"name": "lookup", "args": {"topic": "news", "timeframe": "week"}}, {"name": "source_filter", "args": {"blocked_domains": ["spam.com"], "top_k": 3}}]},
       "metadata": {"skill": "source_filter_blocked_top_k", "difficulty": "medium", "what_it_tests": "The agent should extract blocked_domains and top_k for source_filter."}
     },
     {
@@ -100,12 +90,7 @@
         {"role": "user", "content": "Lay toi da 4 tin thoi"}
       ],
       "failure_type": "wrong_arg_value",
-      "expect": {
-        "tool_calls": [
-          {"name": "lookup", "args": {"topic": "news", "timeframe": "day"}},
-          {"name": "source_filter", "args": {"allowed_domains": ["openai.com", "anthropic.com"]}}
-        ]
-      },
+      "expect": {"tool_calls": [{"name": "lookup", "args": {"topic": "news", "timeframe": "day"}}, {"name": "source_filter", "args": {"allowed_domains": ["openai.com", "anthropic.com"]}}]},
       "metadata": {"skill": "source_filter_multiturn_constraints", "difficulty": "hard", "what_it_tests": "Carry the AI/today search request across turns and apply allowed_domains."}
     },
     {
@@ -114,12 +99,7 @@
       "suite": "group",
       "query": "Tim tin AI hom nay, chi giu nguon tu techcrunch.com.",
       "failure_type": "wrong_tool",
-      "expect": {
-        "tool_calls": [
-          {"name": "lookup", "args": {"query": "AI", "topic": "news", "timeframe": "day"}},
-          {"name": "source_filter", "args": {"allowed_domains": ["techcrunch.com"]}}
-        ]
-      },
+      "expect": {"tool_calls": [{"name": "lookup", "args": {"query": "AI", "topic": "news", "timeframe": "day"}}, {"name": "source_filter", "args": {"allowed_domains": ["techcrunch.com"]}}]},
       "metadata": {"skill": "source_filter_pipeline_domain", "difficulty": "medium", "what_it_tests": "Pipeline lookup -> source_filter when user requests filtered sources from one domain."}
     },
     {
@@ -169,10 +149,7 @@
       "id": "G15_policy_multiturn_privacy",
       "phase": "B",
       "suite": "group",
-      "turns": [
-        {"role": "user", "content": "Cho minh hoi ve quy trinh lam viec noi bo."},
-        {"role": "user", "content": "Khi API key bi lo thi theo quy dinh phai lam gi?"}
-      ],
+      "turns": [{"role": "user", "content": "Cho minh hoi ve quy trinh lam viec noi bo."}, {"role": "user", "content": "Khi API key bi lo thi theo quy dinh phai lam gi?"}],
       "failure_type": "wrong_tool",
       "expect": {"tool_calls": [{"name": "policy", "args": {"policy_area": "data_privacy"}}]},
       "metadata": {"skill": "policy_multiturn_privacy", "difficulty": "medium", "what_it_tests": "API key exposure policy across turns should use policy with data_privacy."}
@@ -181,10 +158,7 @@
       "id": "G16_send_multiturn_confirmation",
       "phase": "B",
       "suite": "group",
-      "turns": [
-        {"role": "user", "content": "Soan ho minh tin nhan Telegram: Chao ca nha."},
-        {"role": "user", "content": "Gui tin nhan do di."}
-      ],
+      "turns": [{"role": "user", "content": "Soan ho minh tin nhan Telegram: Chao ca nha."}, {"role": "user", "content": "Gui tin nhan do di."}],
       "failure_type": "wrong_boundary",
       "expect": {"tool_calls": [{"name": "clarify", "args": {"response_type": "yes_no"}}]},
       "metadata": {"skill": "send_multiturn_confirmation", "difficulty": "hard", "what_it_tests": "Sending needs yes/no confirmation in the current conversation before send."}
