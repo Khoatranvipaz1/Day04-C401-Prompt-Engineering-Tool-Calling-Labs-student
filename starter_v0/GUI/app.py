@@ -70,7 +70,6 @@ def init_transcript(*, provider_name: str, model: str | None, version: str, hist
     st.session_state.turn_index = 0
 
 
-@st.cache_resource(show_spinner=False)
 def load_runtime(provider_name: str, model: str | None) -> tuple[Any, list[dict[str, Any]], str, str]:
     system_prompt_path = ARTIFACTS_DIR / "system_prompt.md"
     tools_path = ARTIFACTS_DIR / "tools.yaml"
@@ -80,6 +79,24 @@ def load_runtime(provider_name: str, model: str | None) -> tuple[Any, list[dict[
     provider = make_provider(provider_name)
     selected_model = model or getattr(provider, "default_model", "")
     return provider, openai_tools, system_prompt, selected_model
+
+
+
+def get_last_clarification() -> dict[str, Any] | None:
+    if "transcript" not in st.session_state or not st.session_state.transcript.get("turns"):
+        return None
+    last_turn = st.session_state.transcript["turns"][-1]
+    if last_turn.get("status") != "waiting_for_user":
+        return None
+    events = last_turn.get("tool_events") or []
+    for event in reversed(events):
+        result = event.get("result") or {}
+        if isinstance(result, dict) and result.get("awaiting_user"):
+            return {
+                "response_type": result.get("response_type") or event.get("args", {}).get("response_type") or "text",
+                "options": result.get("options") or event.get("args", {}).get("options") or []
+            }
+    return None
 
 
 st.set_page_config(page_title="Research Agent", page_icon="🔎", layout="wide")
@@ -114,7 +131,6 @@ with st.sidebar:
         )
 
     if st.button("New chat", use_container_width=True):
-        load_runtime.clear()
         init_transcript(
             provider_name=provider_name,
             model=model,
@@ -128,6 +144,23 @@ with st.sidebar:
     if transcript_path:
         st.caption(f"Transcript: `{transcript_path.relative_to(ROOT)}`")
 
+    st.markdown("---")
+    st.subheader("💡 Gợi ý câu hỏi mẫu")
+    suggestions = {
+        "🔎 Web Search": "Tin tức mới nhất về trí tuệ nhân tạo (AI) hôm nay",
+        "🐦 Twitter / Social Search": "Mọi người đang nói gì về OpenAI trên Twitter?",
+        "👤 Twitter Timeline": "Lấy 5 tweet mới nhất của Sam Altman",
+        "📄 arXiv Research Papers": "Tìm các bài báo nghiên cứu về mô hình GPT-4o trên arXiv",
+        "✅ Fact Checking": "Kiểm tra xem thông tin sau có đúng không: OpenAI đã phát hành GPT-5",
+        "🕵️ Plagiarism Check": "Kiểm tra đạo văn cho văn bản sau: OpenAI introduced GPT-4o in May 2024 as a flagship model to offer real-time translation and voice reasoning.",
+        "📋 Company Policy": "Theo quy định, nếu lỡ làm lộ API key nội bộ thì xử lý như thế nào?"
+    }
+    
+    selected_suggest = None
+    for label, prompt in suggestions.items():
+        if st.button(label, key=f"suggest_{label}", use_container_width=True):
+            selected_suggest = prompt
+
 
 provider, openai_tools, system_prompt, selected_model = load_runtime(provider_name, model)
 
@@ -139,7 +172,58 @@ for message in st.session_state.messages:
                 st.code(json_block(message["tool_events"]), language="json")
 
 
-user_text = st.chat_input("Nhập yêu cầu nghiên cứu...")
+# Render quick replies
+clarification = get_last_clarification()
+selected_reply = None
+if clarification:
+    st.info(f"❓ **Yêu cầu làm rõ:** {clarification['question']}")
+    response_type = clarification["response_type"]
+    options = clarification["options"]
+    
+    st.markdown("##### 💡 Phản hồi nhanh (Quick Reply)")
+    if response_type == "yes_no":
+        cols = st.columns(2)
+        with cols[0]:
+            if st.button("👍 Có (Yes)", use_container_width=True, key="reply_yes"):
+                selected_reply = "Yes"
+        with cols[1]:
+            if st.button("👎 Không (No)", use_container_width=True, key="reply_no"):
+                selected_reply = "No"
+    elif response_type == "choice" and options:
+        cols = st.columns(min(len(options), 4))
+        for idx, opt in enumerate(options):
+            with cols[idx % len(cols)]:
+                if st.button(opt, use_container_width=True, key=f"reply_opt_{idx}"):
+                    selected_reply = opt
+
+selected_main_suggest = None
+with st.expander("💡 Gợi ý câu hỏi mẫu", expanded=not st.session_state.messages):
+    cols = st.columns(2)
+    suggestions_list = [
+        ("🔎 Tin tức AI mới nhất hôm nay", "Tin tức mới nhất về trí tuệ nhân tạo (AI) hôm nay"),
+        ("🐦 Xu hướng OpenAI trên Twitter", "Mọi người đang nói gì về OpenAI trên Twitter?"),
+        ("👤 Tweet mới nhất của Sam Altman", "Lấy 5 tweet mới nhất của Sam Altman"),
+        ("📄 Tìm kiếm bài báo GPT-4o trên arXiv", "Tìm các bài báo nghiên cứu về mô hình GPT-4o trên arXiv"),
+        ("✅ Xác thực tin đồn GPT-5", "Kiểm tra xem thông tin sau có đúng không: OpenAI đã phát hành GPT-5"),
+        ("🕵️ Kiểm tra trùng lặp nội dung", "Kiểm tra đạo văn cho văn bản sau: OpenAI introduced GPT-4o in May 2024 as a flagship model to offer real-time translation and voice reasoning."),
+        ("📋 Quy định xử lý lộ API key", "Theo quy định, nếu lỡ làm lộ API key nội bộ thì xử lý như thế nào?")
+    ]
+    for idx, (label, prompt) in enumerate(suggestions_list):
+        with cols[idx % 2]:
+            if st.button(label, key=f"main_suggest_{idx}", use_container_width=True):
+                selected_main_suggest = prompt
+
+user_text = None
+if selected_suggest:
+    user_text = selected_suggest
+elif selected_main_suggest:
+    user_text = selected_main_suggest
+elif selected_reply:
+    user_text = selected_reply
+else:
+    placeholder = "Nhập câu trả lời hoặc chọn phím nhanh bên trên..." if clarification else "Nhập yêu cầu nghiên cứu..."
+    user_text = st.chat_input(placeholder)
+
 if user_text:
     st.session_state.messages.append({"role": "user", "content": user_text})
     with st.chat_message("user"):
@@ -199,3 +283,4 @@ if user_text:
     turn_record["ended_at"] = now_iso()
     st.session_state.transcript["turns"].append(turn_record)
     write_transcript(st.session_state.transcript_path, st.session_state.transcript)
+    st.rerun()

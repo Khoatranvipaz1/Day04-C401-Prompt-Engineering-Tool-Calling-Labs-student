@@ -1,7 +1,7 @@
 {
   "dataset_id": "day04_v2_research_group",
   "dataset_role": "group",
-  "description": "Team-written eval cases for additional routing, argument, boundary, source_filter, and verify_claim coverage.",
+  "description": "Team-written eval cases for routing, arguments, boundaries, source_filter, verify_claim, plagiarism_check, papers, paper_text, and fetch coverage.",
   "allowed_failure_types": ["wrong_tool", "wrong_arg_value", "wrong_boundary", "unnecessary_tool", "out_of_scope", "missing_info"],
   "cases": [
     {
@@ -150,16 +150,7 @@
         {"role": "user", "content": "Dung nguon nay nhe: title='GPT-4o', url='https://openai.com/gpt-4o', summary='OpenAI released GPT-4o in May 2024'."}
       ],
       "failure_type": "wrong_tool",
-      "expect": {
-        "tool_calls": [
-          {
-            "name": "verify_claim",
-            "args": {
-              "claim": "OpenAI ra mat GPT-4o vao thang 5 nam 2024"
-            }
-          }
-        ]
-      },
+      "expect": {"tool_calls": [{"name": "verify_claim", "args": {"claim": "OpenAI ra mat GPT-4o vao thang 5 nam 2024"}}]},
       "metadata": {"skill": "verify_claim_multiturn_with_sources", "difficulty": "hard", "what_it_tests": "Carry claim and sources across turns to call verify_claim."}
     },
     {
@@ -197,6 +188,51 @@
       "failure_type": "wrong_boundary",
       "expect": {"tool_calls": [{"name": "clarify", "args": {"response_type": "yes_no"}}]},
       "metadata": {"skill": "send_multiturn_confirmation", "difficulty": "hard", "what_it_tests": "Sending needs yes/no confirmation in the current conversation before send."}
+    },
+    {
+      "id": "G17_plagiarism_check_valid",
+      "phase": "B",
+      "suite": "group",
+      "query": "Kiem tra trung lap noi dung cho doan van ban nay giup minh: OpenAI introduced GPT-4o in May 2024 as a new flagship model to offer real-time translation and voice reasoning.",
+      "failure_type": "wrong_tool",
+      "expect": {"tool_calls": [{"name": "plagiarism_check", "args": {"text": "OpenAI introduced GPT-4o in May 2024 as a new flagship model to offer real-time translation and voice reasoning."}}]},
+      "metadata": {"skill": "plagiarism_check_valid", "difficulty": "medium", "what_it_tests": "Provided text with enough words should call plagiarism_check directly."}
+    },
+    {
+      "id": "G18_plagiarism_check_too_short",
+      "phase": "B",
+      "suite": "group",
+      "query": "Kiem tra dao van ho minh doan nay: Xin chao the gioi.",
+      "failure_type": "missing_info",
+      "expect": {"tool_calls": [{"name": "clarify", "args": {"response_type": "text"}}]},
+      "metadata": {"skill": "plagiarism_check_too_short", "difficulty": "medium", "what_it_tests": "Too-short plagiarism text should ask for more text."}
+    },
+    {
+      "id": "G19_papers_routing",
+      "phase": "B",
+      "suite": "group",
+      "query": "Tim giup minh cac bai nghien cuu ve GPT-4o tren arXiv",
+      "failure_type": "wrong_tool",
+      "expect": {"tool_calls": [{"name": "papers", "args": {"query": "GPT-4o"}}]},
+      "metadata": {"skill": "papers_routing", "difficulty": "easy", "what_it_tests": "arXiv paper search should use papers."}
+    },
+    {
+      "id": "G20_paper_text_routing",
+      "phase": "B",
+      "suite": "group",
+      "query": "Doc noi dung bai bao arXiv nay giup minh: https://arxiv.org/abs/2405.12345",
+      "failure_type": "wrong_tool",
+      "expect": {"tool_calls": [{"name": "paper_text", "args": {"arxiv_url": "https://arxiv.org/abs/2405.12345"}}]},
+      "metadata": {"skill": "paper_text_routing", "difficulty": "medium", "what_it_tests": "A specific arXiv URL should use paper_text, not fetch."}
+    },
+    {
+      "id": "G21_fetch_routing",
+      "phase": "B",
+      "suite": "group",
+      "query": "Tom tat bai viet nay: https://example.com/ai-news",
+      "failure_type": "wrong_tool",
+      "expect": {"tool_calls": [{"name": "fetch", "args": {"url": "https://example.com/ai-news"}}]},
+      "metadata": {"skill": "fetch_routing", "difficulty": "easy", "what_it_tests": "A concrete non-arXiv URL should use fetch."}
     }
   ]
 }
