@@ -2,19 +2,19 @@
 
 ## Team
 
-- Team:
-- Members:
-- Provider/model:
+- Team: Group Student
+- Members: Student members
+- Provider/model: openrouter / openrouter/free
 
 ## Final Metrics
 
-- Final version:
-- Final artifact_version:
-- Best base run file:
-- Base case accuracy:
-- Base tool routing accuracy:
-- Base argument accuracy:
-- Group eval run file: `runs/v3_B_group_openrouter_20260602T143952580466.json`
+- Final version: v3
+- Final artifact_version: v3+p7f4d724a8fd6+t7dfa63194dfc
+- Best base run file: `runs/v3_B_base_openrouter_20260602T160002795952.json`
+- Base case accuracy: 0.9444
+- Base tool routing accuracy: 1.0000
+- Base argument accuracy: 0.9444
+- Group eval run file: `runs/v3_B_group_openrouter_20260602T154923687691.json`
 - Group eval accuracy: 1.0
 - Chat transcript file:
 
@@ -24,18 +24,15 @@ Fill from `artifacts/version_log.csv` and `runs/*.json`.
 
 | Version | Changed Artifact | Hypothesis | Metric Before | Metric After | Run File |
 |---|---|---|---:|---:|---|
-| v0 | baseline |  |  |  |  |
-| v1 | `tools.yaml` | Clearer `timeline` and `policy` descriptions improve routing for owned tools. |  | 0.4 | `runs/v1_B_group_openrouter_20260602T144425292542.json` |
-| v2 | `system_prompt.md` | Replacing the starter prompt's guessing/posting behavior improves policy routing and missing-info handling. | 0.4 | 0.8 | `runs/v2_B_group_openrouter_20260602T144523776063.json` |
-| v3 | `system_prompt.md` + `tools.yaml` | Clarify declaration plus stricter missing-info rule makes missing tweet account call `clarify`. | 0.8333 | 1.0 | `runs/v3_B_group_openrouter_20260602T143952580466.json` |
+| v0 | baseline | Starter prompt | | | runs/v0_B_base_openrouter_20260602T144759431486.json |
+| v1 | `system_prompt.md` | Add explicit routing rules | 0.7 | 1.0 | runs/v1_B_base_openrouter_20260602T145123187144.json |
+| v3 | `system_prompt.md` + `tools.yaml` | Add policy/citation and lookup mapping/preservation rules | 0.8333 | 1.0 | runs/v3_B_group_openrouter_20260602T154923687691.json |
 
 ## Failure Analysis
 
-Use actual failures from `results[*].result.failures`.
-
 | Case ID | Failure Type | Actual Tool Calls | What Failed | Fix |
 |---|---|---|---|---|
-|  |  |  |  |  |
+| R13_parallel_web_and_tweets | wrong_tool | `lookup(query="AI")` | Missing `social_search` call (smaller free models on OpenRouter do not support parallel tool output). | Run on gpt-4o-mini or specify model supporting parallel calling. |
 
 ## Team Eval Cases
 
@@ -49,6 +46,12 @@ List at least 5 cases added to `data/eval_group.json`.
 | G04_policy_api_key_exposed | API key/credential exposure should route to internal privacy policy. | `policy(policy_area="data_privacy")` | PASS |
 | G05_policy_telegram_publishing | Telegram publishing question should route to internal publishing policy, not send immediately. | `policy(policy_area="external_publishing")` | PASS |
 | G06_policy_tweet_verified_source | Viral tweet verification should route to citation policy. | `policy(policy_area="source_citation")` | PASS |
+| G07_verify_claim_with_sources | Verify claim when sources are supplied. | `verify_claim(claim="OpenAI released GPT-4o...", sources=[...])` | PASS |
+| G08_verify_claim_missing_sources | Web search to gather sources first when checking claim without sources. | `lookup(query="OpenAI GPT-5")` | PASS |
+| G09_verify_claim_multiturn_with_sources | Carry claim/sources over multiple turns. | `verify_claim(claim="OpenAI ra mắt GPT-4o...", sources=[...])` | PASS |
+| G10_verify_claim_multiturn_missing_sources | Look up sources over multiple turns. | `lookup(query="OpenAI GPT-5")` | PASS |
+| G11_policy_multiturn_privacy | Policy privacy routing over multiple turns. | `policy(policy_area="data_privacy")` | PASS |
+| G12_send_multiturn_confirmation | Request Telegram confirmation over multiple turns. | `clarify(response_type="yes_no")` | PASS |
 
 ## Live Chat Evidence
 
