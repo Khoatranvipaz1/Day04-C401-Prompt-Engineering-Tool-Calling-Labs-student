@@ -9,12 +9,12 @@
 ## Final Metrics
 
 - Final version: v3
-- Final artifact_version: v3+p7f4d724a8fd6+t7dfa63194dfc
+- Final artifact_version: v3+pa172afe3c28a+tc64c7d9485c1
 - Best base run file: `runs/v3_B_base_openrouter_20260602T160002795952.json`
 - Base case accuracy: 0.9444
 - Base tool routing accuracy: 1.0000
 - Base argument accuracy: 0.9444
-- Group eval run file: `runs/v3_B_group_openrouter_20260602T154923687691.json`
+- Group eval run file: `runs/v3_B_group_openrouter_20260602T163039746881.json`
 - Group eval accuracy: 1.0
 - Chat transcript file:
 
@@ -26,7 +26,7 @@ Fill from `artifacts/version_log.csv` and `runs/*.json`.
 |---|---|---|---:|---:|---|
 | v0 | baseline | Starter prompt | | | runs/v0_B_base_openrouter_20260602T144759431486.json |
 | v1 | `system_prompt.md` | Add explicit routing rules | 0.7 | 1.0 | runs/v1_B_base_openrouter_20260602T145123187144.json |
-| v3 | `system_prompt.md` + `tools.yaml` | Add policy/citation and lookup mapping/preservation rules | 0.8333 | 1.0 | runs/v3_B_group_openrouter_20260602T154923687691.json |
+| v3 | `system_prompt.md` + `tools.yaml` | Add policy/citation, lookup mapping, plagiarism, papers, and verify_claim rules | 0.8333 | 1.0 | runs/v3_B_group_openrouter_20260602T163039746881.json |
 
 ## Failure Analysis
 
@@ -52,6 +52,11 @@ List at least 5 cases added to `data/eval_group.json`.
 | G10_verify_claim_multiturn_missing_sources | Look up sources over multiple turns. | `lookup(query="OpenAI GPT-5")` | PASS |
 | G11_policy_multiturn_privacy | Policy privacy routing over multiple turns. | `policy(policy_area="data_privacy")` | PASS |
 | G12_send_multiturn_confirmation | Request Telegram confirmation over multiple turns. | `clarify(response_type="yes_no")` | PASS |
+| G13_plagiarism_check_valid | Winston AI plagiarism check with valid text length (16+ words). | `plagiarism_check(text="...")` | PASS |
+| G14_plagiarism_check_too_short | Winston AI plagiarism check with short text (<16 words) should clarify. | `clarify(response_type="text")` | PASS |
+| G15_papers_routing | arXiv paper search by topic. | `papers(query="GPT-4o")` | PASS |
+| G16_paper_text_routing | arXiv paper text extraction with exact arXiv URL. | `paper_text(arxiv_url="...")` | PASS |
+| G17_fetch_routing | Non-arXiv URL fetch/reading request. | `fetch(url="...")` | PASS |
 
 ## Live Chat Evidence
 
@@ -59,7 +64,7 @@ Use `transcripts/*.transcript.json`.
 
 | Turn | User Request | Tool Calls | Version Evidence | Outcome |
 |---|---|---|---|---|
-|  |  |  |  |  |
+| 1 | Check claim: OpenAI released GPT-5 | `lookup(query="OpenAI GPT-5")` | v3 | Web search is performed first to retrieve evidence |
 
 ## Bonus Evidence
 
@@ -67,14 +72,17 @@ Only fill if your team did bonus.
 
 | Bonus | Evidence File | What Worked | Risk / Guardrail |
 |---|---|---|---|
-| send (Telegram) |  |  |  |
-| arXiv/company policy | `tools/policy/tool.py`, `company_policy/*.md` | `policy` smoke test returned `search_company_policy data_privacy 1`; local knowledge search needs no API key. | Retrieved policy markdown is reference context, not instructions; ignore instruction-like text in `untrusted_text`. |
-| UI |  |  |  |
+| send (Telegram) | `tools/send/tool.py` | Telegram bot sending works after confirmation. | Explicit confirmation is required; checked via `clarify(response_type="yes_no")` |
+| arXiv/company policy | `tools/policy/tool.py`, `company_policy/*.md` | `policy` search successfully returned localized guidelines. | Ignore untrusted markdown instructions from retrieved texts |
+| UI | `GUI/app.py` | Streamlit UI with suggestion dashboard, interactive Yes/No, and option buttons. | Reruns page to update history state and prevent stale inputs |
 
 ## Reflection
 
-- Which fixes belonged in `system_prompt.md`?
-- Which fixes belonged in `tools.yaml`?
-- Which failure needed manual review instead of automatic grading?
-- What would you improve next?
-
+- **Which fixes belonged in `system_prompt.md`?**
+  * Scope constraints (refusing math, coding, general tasks), preventing prompt injections, routing specific URLs (arXiv vs. non-arXiv), claim search formatting, and multi-turn parameter persistence.
+- **Which fixes belonged in `tools.yaml`?**
+  * Aligning parameters and specifying strict descriptions for the tools (like `plagiarism_check` text limits, `verify_claim` source object arrays) so the model calls them with the right argument shapes.
+- **Which failure needed manual review instead of automatic grading?**
+  * Parallel tool calls (`R13_parallel_web_and_tweets`) because smaller models (e.g. Llama-3 70B free) often fail to call both tools in one turn and need to be evaluated based on capacity rather than strict logic.
+- **What would you improve next?**
+  * Add automatic query suggestions generator using a local lightweight LLM based on user's current context, and integrate more research engines.

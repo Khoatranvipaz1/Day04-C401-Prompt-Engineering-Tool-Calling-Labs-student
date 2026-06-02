@@ -171,6 +171,96 @@
         ]
       },
       "metadata": {"skill": "send_multiturn_confirmation", "difficulty": "hard", "what_it_tests": "Yêu cầu gửi tin nhắn nhưng chưa có xác nhận rõ ràng ở lượt hiện tại thì phải clarify yes_no."}
+    },
+    {
+      "id": "G13_plagiarism_check_valid",
+      "phase": "B",
+      "suite": "group",
+      "query": "Kiểm tra trùng lặp nội dung cho đoạn văn bản này giúp mình: OpenAI introduced GPT-4o in May 2024 as a new flagship model to offer real-time translation and voice reasoning.",
+      "failure_type": "wrong_tool",
+      "expect": {
+        "tool_calls": [
+          {
+            "name": "plagiarism_check",
+            "args": {
+              "text": "OpenAI introduced GPT-4o in May 2024 as a new flagship model to offer real-time translation and voice reasoning."
+            }
+          }
+        ]
+      },
+      "metadata": {"skill": "plagiarism_check_valid", "difficulty": "medium", "what_it_tests": "Đoạn văn bản trên 16 từ phải gọi plagiarism_check trực tiếp."}
+    },
+    {
+      "id": "G14_plagiarism_check_too_short",
+      "phase": "B",
+      "suite": "group",
+      "query": "Kiểm tra đạo văn hộ mình đoạn này: Xin chào thế giới.",
+      "failure_type": "missing_info",
+      "expect": {
+        "tool_calls": [
+          {
+            "name": "clarify",
+            "args": {
+              "response_type": "text"
+            }
+          }
+        ]
+      },
+      "metadata": {"skill": "plagiarism_check_too_short", "difficulty": "medium", "what_it_tests": "Nội dung kiểm tra đạo văn dưới 16 từ phải gọi clarify hỏi thêm thông tin."}
+    },
+    {
+      "id": "G15_papers_routing",
+      "phase": "B",
+      "suite": "group",
+      "query": "Tìm giúp mình các bài nghiên cứu về GPT-4o trên arXiv",
+      "failure_type": "wrong_tool",
+      "expect": {
+        "tool_calls": [
+          {
+            "name": "papers",
+            "args": {
+              "query": "GPT-4o"
+            }
+          }
+        ]
+      },
+      "metadata": {"skill": "papers_routing", "difficulty": "easy", "what_it_tests": "Tìm kiếm bài viết khoa học/arXiv phải dùng papers."}
+    },
+    {
+      "id": "G16_paper_text_routing",
+      "phase": "B",
+      "suite": "group",
+      "query": "Đọc nội dung bài báo arXiv này giúp mình: https://arxiv.org/abs/2405.12345",
+      "failure_type": "wrong_tool",
+      "expect": {
+        "tool_calls": [
+          {
+            "name": "paper_text",
+            "args": {
+              "arxiv_url": "https://arxiv.org/abs/2405.12345"
+            }
+          }
+        ]
+      },
+      "metadata": {"skill": "paper_text_routing", "difficulty": "medium", "what_it_tests": "Có URL bài báo arXiv cụ thể phải dùng paper_text, không phải fetch hay papers."}
+    },
+    {
+      "id": "G17_fetch_routing",
+      "phase": "B",
+      "suite": "group",
+      "query": "Tóm tắt bài viết này: https://example.com/ai-news",
+      "failure_type": "wrong_tool",
+      "expect": {
+        "tool_calls": [
+          {
+            "name": "fetch",
+            "args": {
+              "url": "https://example.com/ai-news"
+            }
+          }
+        ]
+      },
+      "metadata": {"skill": "fetch_routing", "difficulty": "easy", "what_it_tests": "Có URL cụ thể ngoài arXiv phải dùng fetch."}
     }
   ]
 }
