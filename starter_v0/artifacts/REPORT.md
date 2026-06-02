@@ -14,7 +14,7 @@
 - Base case accuracy:
 - Base tool routing accuracy:
 - Base argument accuracy:
-- Group eval run file: `runs/v3_B_group_openrouter_20260602T135724636098.json`
+- Group eval run file: `runs/v3_B_group_openrouter_20260602T143952580466.json`
 - Group eval accuracy: 1.0
 - Chat transcript file:
 
@@ -25,9 +25,9 @@ Fill from `artifacts/version_log.csv` and `runs/*.json`.
 | Version | Changed Artifact | Hypothesis | Metric Before | Metric After | Run File |
 |---|---|---|---:|---:|---|
 | v0 | baseline |  |  |  |  |
-| v1 | `tools.yaml` | Clearer `timeline` and `policy` descriptions improve routing for owned tools. |  | 0.3333 | `runs/v1_B_group_openrouter_20260602T135158413089.json` |
-| v2 | `system_prompt.md` | Replacing the starter prompt's guessing/posting behavior improves policy routing and missing-info handling. | 0.3333 | 0.8333 | `runs/v2_B_group_openrouter_20260602T135512858601.json` |
-| v3 | `system_prompt.md` + `tools.yaml` | Clarify declaration plus stricter missing-info rule makes missing tweet account call `clarify`. | 0.8333 | 1.0 | `runs/v3_B_group_openrouter_20260602T135724636098.json` |
+| v1 | `tools.yaml` | Clearer `timeline` and `policy` descriptions improve routing for owned tools. |  | 0.4 | `runs/v1_B_group_openrouter_20260602T144425292542.json` |
+| v2 | `system_prompt.md` | Replacing the starter prompt's guessing/posting behavior improves policy routing and missing-info handling. | 0.4 | 0.8 | `runs/v2_B_group_openrouter_20260602T144523776063.json` |
+| v3 | `system_prompt.md` + `tools.yaml` | Clarify declaration plus stricter missing-info rule makes missing tweet account call `clarify`. | 0.8333 | 1.0 | `runs/v3_B_group_openrouter_20260602T143952580466.json` |
 
 ## Failure Analysis
 
