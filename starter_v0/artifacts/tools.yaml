@@ -91,6 +91,14 @@ tools:
         top_k: {type: integer, default: 3, description: "Number of matching policy snippets."}
       required: [query]
 
+  - name: plagiarism_check
+    description: "Check whether a user-provided text has public source overlap using Winston AI's plagiarism API. Use for plagiarism/originality/similarity requests. This is a similarity aid, not a definitive plagiarism verdict. Requires at least 16 words and at most 20,000 words; if the text is missing or too short, use clarify."
+    parameters:
+      type: object
+      properties:
+        text: {type: string, default: "", description: "The exact text to check for public source overlap. Must be at least 16 words and no more than 20,000 words."}
+      required: [text]
+
   - name: papers
     description: "Search arXiv papers. Use for academic paper discovery, research papers, preprints, or arXiv queries."
     parameters:
